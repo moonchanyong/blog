@@ -1,6 +1,8 @@
 it's FP PAGE2
 
-{% for post in site.static_files %}
+{{site.collections}}
+
+{% for post in {{site.collections}} %}
 
     post name {{ post.name }}
 
