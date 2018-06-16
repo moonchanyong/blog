@@ -1,8 +1,8 @@
 ---
-layout: page
+layout: default
 ---
 
-<h1>{{page.category}}LIST</h1>
+<h1>{{page.category}} LIST</h1>
 
 {% for post in site.categories[page.category] %}
     <a href="{{ post.url | absolute_url }}">
