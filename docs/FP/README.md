@@ -1,4 +1,10 @@
-it's FP PAGE3
+---
+layout: category
+title: FunctionalProgramming
+category: FP
+---
+
+it's FP PAGE4
 
 {{site.FP}}
 {{site.FP.static_files}}
