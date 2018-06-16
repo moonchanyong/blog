@@ -1,8 +1,10 @@
 it's FP PAGE2
 
-site html {{site.html_files}}
-site static {{site.static_files}}
-site html {{site.html_files}}
-page url {{page.url}}
-page id {{page.id}}	
+{% for post in site.static_files %}
+
+    post name {{ post.name }}
+
+    post {{post}}
+{% endfor %}
+
 isText
