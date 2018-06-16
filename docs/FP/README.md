@@ -1,6 +1,8 @@
-it's FP PAGE2
+it's FP PAGE3
 
-{{site.collections}}
+{{site.FP}}
+{{site.FP.static_files}}
+
 
 {% for post in {{site.collections}} %}
 
