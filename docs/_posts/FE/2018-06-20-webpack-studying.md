@@ -73,3 +73,112 @@ require('main.js');
 * webpack 4.0부터 cli를 설치해야한다고 한다.
 
 * 설치는 이미 해놧다.
+
+
+## NPM(부록)
+* 아는 범위라 스킵
+
+## Webpack Entry(시작점)
+
+* webpack으로 묶은 모든 라이브러리들을 로딩할 시작점 지정
+
+* bundle.js로 bundle
+
+* 1개 이상의 entrypoint지정
+
+### entry kind
+```
+entry: 'filepath'
+
+entry: {
+  app: 'app', // 앱 로직용
+  vendors: 'thirdparty library path' // 한번만 빌드하면 되는것을 하기위해 분리
+}
+//페이지 별로
+entry: {
+  pageOne:
+  pageTwo: ,
+  pageThree
+}
+
+
+module.exports = {
+  entry: {
+    profile: 'fil',
+    Feed: ''
+  },
+  output: {
+    path: 'folder path'
+    filename: '[name].js' // 위에 지정한 entry 키의 이름에 맞춰서 결과 산출
+  }
+}
+```
+
+## Webpack Output
+
+* output의 위치와 이름 설정
+
+```
+var path = require('path');
+
+output: {
+  filename: '[name].js', // naming by entry name
+  filename: '[hash].js', // webpack build에 따른 output 파일명 생성
+  filename: '[chunckhash].js' // naming by chunk, recommand (why? 추적이 쉽다.)
+}
+
+// 문자열을 합치는 기능만 한다.
+path.join('/foo', 'bar', 'baz/asdf');
+
+// resolve는 오른쪽에서 왼쪽으로 파일 위치를 구성해가며 유효한 위치를 찾는다.
+//값이 유효하지 않다면, 현재디렉토리 사용한다, 반환되는 URL은 절대주소
+// 안전한 주소를 정하기위해 사용한다.
+path.resolve();
+```
+
+## Webpack Loader
+
+* 파일별로 특정 동작을 실행하도록 한다.
+* 웹 자원들을 js로 변환하여 로딩
+* 모든 자원들을 모듈로 사용하기위해 로더를 사용한다.
+```
+ module.exports = {
+   entry: {
+   },
+   output: {
+   },
+   module: {
+     rules: [
+      { test: /\.css$/ , use: ['style-loader', 'css-loader'] },
+      { test: /backbone/,
+        use: ['expose-loader?Backbone', 'import-loader?_=underscore, jquery']}
+        // 오른쪽부터 왼쪽순이라서 jquery 다음 underscore 임포트
+     ]
+   }
+ }
+```
+
+### Babel Loader - ES6
+: presets, 제공하는 플러그인등을  포함
+```
+module: {
+  rules: [
+    {
+      test: /\.js$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: { presets: ['es2015, 'react', {modules: false}] }
+          }
+        ]
+    } //tree shaking: 쓰지않으면 추가하지않는다.
+  ]
+}
+
+// in .bablerc, preset은 바깥으로 뺄수있다.
+{
+  "presets": ["react", "es2015"]
+}
+```
+
+### code splitting practice
