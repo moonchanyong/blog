@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 힘들어서 얻은 인생 교육
-category: [ FE ]
+category: [ Thingking ]
 tags: [ kkk ]
 ---
 
