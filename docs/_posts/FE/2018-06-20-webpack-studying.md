@@ -182,3 +182,55 @@ module: {
 ```
 
 ### code splitting practice
+
+
+## What is plugin ?
+* 추가적으로 커스텀 기능을 추가히가 위해서.
+
+* 로더는 번들링 할때, 플러그인은 결과를 낼 때 작용
+
+(loader를 활용한 기능 이외에, css를 바깥으로 빼는 등과 같은 기능 등 다른 기능)
+```
+module.exports = {
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin() // 자바에서 어글리파이 제공
+  ]
+}
+```
+
+## what kind of plugin is it?
+
+### provide plubins
+* 라이브러리에 전역변수 개념으로 살정
+```
+  new webpack.ProvidePlugin({
+      $: "jquery"
+    })
+```
+
+### definePlugin
+
+* Webpack 번들링을 시작하는 시점에 사용 가능한 상수들을 정의한다.
+
+* 일반적으로 개발계, 데스트계에 따라 다른설정을 적용할 때 유용(환경을 나눌때 환경변수 설정시인듯)
+
+```
+  new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(true),
+      VERSION: JSON.stringify("5dkmfdo"),
+      BROWSER_SUPPORTS_HTML5: true,
+      TWO: "1+1",
+      "typeof window": JSON.stringify("object")
+```
+
+### manifestPlugin
+
+  * 번들링시 생성되는 코드에 대한 정보를 json 파일로 저장하여 관리
+  * 의존성 관리를 위해서 사용한다고 보면 된다.
+```
+  new ManifestPlugin({
+      fileName: 'manifest.json',
+      basePath: './dist/'
+  })
+
+```
