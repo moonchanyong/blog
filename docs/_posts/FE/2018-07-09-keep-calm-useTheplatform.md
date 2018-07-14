@@ -50,24 +50,25 @@ window.customElements.defin('명시한 태그', class extends HTMLElement {});
 * Custom Tag가 DOM에 추가 될 때 클래스의 constructor가 똑같이 동작한다.
 * HTMLElement를 상속받은 Custom Elements의 constructor의 실행 시점은 아직 DOM에 추가되지 않은 상태이다. constructor 에서는 어떠한 DOM조작도 할 수 없다. 그러므로, 이곳에서는 DOM과 무관한 클래스 인스턴스 자체의 준비만 해야한다.
 ```javascript
+// good
+constructor(val) {
+
+  super(); // 항상 맨 앞에!
+
+  console.log('yey!'); // yey
+  console.log(val); // val 출력
+}
+
 // bad
 constructor() {
-  // good
-  constructor(val) {
-    super(); // 항상 맨 앞에!
+  super(); // 항상 맨 앞에!
 
-    console.log('yey!'); // yey
-    console.log(val); // val 출력
-  }
-
-    super(); // 항상 맨 앞에!
-
-    console.log(this.parentNode); // null
-    console.log(this.firstChild); // null
-    console.log(this.innerHTML); // ""
-    console.log(this.getAttribute('locale')); // null
-    this.setAttribute('locale', 'ko-KR'); // 에러: Uncaught DOMException: Failed to construct 'CustomElement': The result must not have attributes
-    this.innerText = 'Arr'; // 에러: Uncaught DOMException: Failed to construct 'CustomElement': The result must not have children
+  console.log(this.parentNode); // null
+  console.log(this.firstChild); // null
+  console.log(this.innerHTML); // ""
+  console.log(this.getAttribute('locale')); // null
+  this.setAttribute('locale', 'ko-KR'); // 에러: Uncaught DOMException: Failed to construct 'CustomElement': The result must not have attributes
+  this.innerText = 'Arr'; // 에러: Uncaught DOMException: Failed to construct 'CustomElement': The result must not have children
 }
 ```
 
@@ -111,3 +112,14 @@ constructor() {
 #### custom element 브라우저 지원
 
 * can i use에서 확인해본 결과 기본적으로 지원은 안하지만 사용은 할 수 있는 곳이있다 IE는 지원안해서 현재는 polyfill로 지원한다고 한다.
+
+
+## Shadow Dom
+
+* HTML, css 에 OOP처럼 은닉이 가능하게한다. => 실제로 접근을 하지말고 속성을 통해서 엘리먼트의 상태 변화를 일으키자.
+* 스코프를 나눈다.
+
+
+* 장점: 스코프를 나누기, iframe대비 장점으로 http요청이 1번 줄고, 별도의 페이지가 아니라서 리소스가 낮고, 도메인이 아니어도 접근이 가능하다. + slot
+
+* 라이트 돔 => slot에 삽입
