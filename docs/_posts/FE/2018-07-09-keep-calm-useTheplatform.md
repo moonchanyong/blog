@@ -123,3 +123,78 @@ constructor() {
 * 장점: 스코프를 나누기, iframe대비 장점으로 http요청이 1번 줄고, 별도의 페이지가 아니라서 리소스가 낮고, 도메인이 아니어도 접근이 가능하다. + slot
 
 * 라이트 돔 => slot에 삽입
+
+
+# polymer3 분석하기
+
+## 폴리머 스택을 가질까 말까 고민 중..
+* 긍정적 측면
+  + 폴리머, 웹컴포넌트 기반이라 폴리머팀의 폴리필(11kb)로 모든 브라우저에서 지원가능하다.
+  + 앵귤러 처럼 데이터 바인딩 등 비슷한 문법을 내포한다.
+* 부정적 측면
+  + 내가 이 프레임워크를 쓰게 될까? (개인적으로는 쓸것 같다.) => 답이나왔다. 개인 공부로 하자
+  + 지금 과제에 집중할 때이다.. 퇴근하고 과제에 관련된 공부 하는게 좋지않나 ? => 맞는말이다.. 그럼 공부할게 없을때 폴리머를 해보는건 ?₩
+
+## lit-html
+
+* lit은 리터럴, 원래 웹컴포넌트 초기에는 템플릿 엘리먼트지원과 link 태그의 import를 지원 하려고 했다. 하지만 대표적으로 파이어폭스에서 import지원을 안하겟다고 말한다.
+* 타당한 이유가 있다고한다. 쨋든 그래서 방향이 바뀌어서 html import를 대신해서 html이아닌 js를 가져오도록, 마크업은 template 대신 template literal을 사용하려고 방향이 바뀌엇다.
+
+
+### html tag
+
+* html tag of polymer
+
+```javascript
+<!-- html template로 만든다. -->
+exports.html = function html(strings) {
+  var values = [];
+  for (var _i = 1; _i < arguments.length; _i++) {
+    values[_i - 1] = arguments[_i];
+  }
+  var template = /** @type {!HTMLTemplateElement} */ (document.createElement('template'));
+  template.innerHTML = values.reduce(function (acc, v, idx) {
+    return acc + htmlValue(v) + strings[idx + 1];
+  }, strings[0]);
+  return template;
+};
+```
+
+### shadow dom
+
+```javascript
+<!-- template 생성시 shaodw dom으로 적용  -->
+static get template () {return html`some template`;}
+```
+
+### user data binding
+* 표준 커스텀컴포넌트는 와칭할 속성값을 추가하지만, 값을 추가하면 자동으로 바인딩된다.
+* 변화전파에 빠르다. => 렌더링콕스트를 줄인다.
+* {{}} 이중 브라켓으로 씌우면 데이터 바인딩이 된다.
+
+```javascript
+<!-- this.data 변경시 자동으로 적용 -->
+static get template () {return html`some {{this.data}} template`;}
+
+```
+
+### declare property 
+
+```javascript
+static get properties () {
+    return {
+      // Configure owner property
+      owner: { // watching attribute
+        type: String,
+          value: 'Daniel', //default value
+      }
+    };
+  }
+<!-- property bind [[]] -->
+static get template () { 
+    return html`
+      <!-- bind to the "owners" property -->
+      This is <b>[[owners]]</b>'s name-tag element.
+    `;
+  }
+```
