@@ -95,6 +95,23 @@ $ ps -ef | grep httpd
 
 #### [awk](http://www.incodom.kr/Linux/%EA%B8%B0%EB%B3%B8%EB%AA%85%EB%A0%B9%EC%96%B4/awk): 패턴 탐색 및 처리, grep 과 다른 점은 처리를 추가 할 수 있다.
 
+#### top: 시스템의 요약 정보를 보여준다.
+* PR: 우선순위, 값이 낮을 수록 높은 우선순위
+* NI(nicevalue): PR + NI의 값으로 우선순위 결정, $nice로 값 결정
+* Tasks: process
+* VIRT(virtual memory): 가상 메모리, malloc을 하면 VIRT가 할당 되고 물리메모리는 할당이 되지않는다. 실제 물리메모리에 접근하면 page fault가 일어나 그 때 RES 실제 물리 메모리가 할당.
+* RES: 실제 할당 된 물리 메모리
+* SHR: 프로세스 간 공유 메모리
+* S: 현재 프로세스의 상태값
+  - S: sleeping, sleep() 또는 콘솔입력 대기, 자원을 바로 사용 할 수 있다.
+  - D: uniterruptible sleep, disk 또는 네트워크 IO 대기, 자원은 바로 사용할 수 없다.wait queue에 들어간다.
+  - R: running. 자원을 소모하고있다.
+  - T: traced or stopped, strace 뜽으로 프로세스의 시스템 콜을 추적
+  - Z: zombie. 부모프로세스가 죽고 자식프로세스가 종료를 못하는 중. PID값을 잡아먹어서 많으면 영향을 준다.
+* S의 상태가 많으면 큰 영향은 없지만, D의 상태가 많으면 IO가 일어나면 다시 Running 상태로 돌아가야해서 시스템 부하를 계산하는데 포함된다.
+* S의 상태가 많으면 큰 영향은 없지만, D의 상태가 많으면 ㅑㅒrk dlfdjskaus 다시 Runningdm
+#### nice: 새 프로세스의 NI값을 조정
+#### renice: 실행 중인 프로세스의 NI값을 조정
 
 ## tool
 
