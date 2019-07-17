@@ -17,11 +17,12 @@ tags: [ linux, command, tips ]
 * 기본으로 표준 입출력 번호가 매핑
 * linux fd 위치 ```/proc/[PID]/fd/ ```
 
-## [procfs](https://ko.wikipedia.org/wiki/Procfs) 
-프로세스와 다른 시스템정보를 계층적 파일 구조 형식으로 보여주기 위한 파일 시스템. 부트타임에 /proc에 마운트 된다. procfs는 커널 내부 데이터 구조체에 대한 인터페이스처럼 동작. 커널영역과 유저영역 사이의 통신에 대한 방식을 제공한다. 
+## [procfs](https://ko.wikipedia.org/wiki/Procfs)
+프로세스와 다른 시스템정보를 계층적 파일 구조 형식으로 보여주기 위한 파일 시스템. 부트타임에 /proc에 마운트 된다. procfs는 커널 내부 데이터 구조체에 대한 인터페이스처럼 동작. 커널영역과 유저영역 사이의 통신에 대한 방식을 제공한다.
 
 * 각 실행중인 프로세스는 /proc/[PID]를 가진다.
-* /proc 디렉토리에는 시스템 정보도 포함한다. 
+* /proc 디렉토리에는 시스템 정보도 포함한다.
+* man proc을 하면 문서를 볼 수 있다.
 
 ```
 # wiki 펌
@@ -38,16 +39,21 @@ tags: [ linux, command, tips ]
 
 ```
 
-
-
 ##### standard POSIX file descriptors
 * stdout(standard output stream): 1
 * stderr(standard error stream): 2
 * stdin(standard error stream): 0
 
+
+## [CPU BOUND, IO BOUND](https://stackoverflow.com/questions/868568/what-do-the-terms-cpu-bound-and-i-o-bound-mean)
+* CPU BOUND: CPU 성능 영향을 받는다는 뜻
+> A program is CPU bound if it would go faster if the CPU were faster, i.e. it spends the majority of its time simply using the CPU (doing calculations)A program is CPU bound if it would go faster if the CPU were faster, i.e. it spends the majority of its time simply using the CPU (doing calculations)
+* IO BOUND: IO로 처리량에 의해 성능이 영향되는 범위라는 뜻
+> A program is I/O bound if it would go faster if the I/O subsystem was faster. Which exact I/O system is meant can vary; I typically associate it with disk, but of course networking or communication in general is common too.
+
 ## command
 
-#### man: 명령어의 정보를 알 수 있다. 
+#### man: 명령어의 정보를 알 수 있다.
 ```bash
 $ man man
 ```
@@ -109,12 +115,17 @@ $ ps -ef | grep httpd
   - T: traced or stopped, strace 뜽으로 프로세스의 시스템 콜을 추적
   - Z: zombie. 부모프로세스가 죽고 자식프로세스가 종료를 못하는 중. PID값을 잡아먹어서 많으면 영향을 준다.
 * S의 상태가 많으면 큰 영향은 없지만, D의 상태가 많으면 IO가 일어나면 다시 Running 상태로 돌아가야해서 시스템 부하를 계산하는데 포함된다.
-* S의 상태가 많으면 큰 영향은 없지만, D의 상태가 많으면 ㅑㅒrk dlfdjskaus 다시 Runningdm
+
 #### nice: 새 프로세스의 NI값을 조정
 #### renice: 실행 중인 프로세스의 NI값을 조정
+
+#### uptime: proc의  loadavg정보를 읽어와 보여준다.
 
 ## tool
 
 #### strace: systemcall trace 도구
 * 소켓 열 때 옵션 setsockopt, connect, close 확인
 * 파일 access, read 확인
+
+#### vmstat:  Report virtual memory statistics
+프로세스, 메모리, 페이징, block IO, traps, 디스크와 CPU activity에 대한 리포트이다. Running , Blocking 프로세스는 새로 로드되는 줄의 R, B 열 값을 보면 CPU BOUND와 IO BOUND인지 알 수 있다.
