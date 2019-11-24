@@ -1,0 +1,583 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>GraalVM Native-Image 삽질</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	opacity: 0.5;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif; }
+.mono { font-family: Nitti, 'Microsoft YaHei', '微软雅黑', monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, Nitti, 'Microsoft YaHei', '微软雅黑', monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="fd3b18b1-21b3-4303-bdc7-5a9e6f1b8de2" class="page sans"><header><h1 class="page-title">GraalVM Native-Image 삽질</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th>Created</th><td><time>@Nov 03, 2019 3:26 PM</time></td></tr><tr class="property-row property-row-multi_select"><th>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><h1 id="0aeb13f6-93f4-4afb-8cdc-858655dd2083" class="">GraalVM Native-Image 삽질</h1><p id="1b687d7e-7fe6-464c-b9c8-64f2a046ab49" class="">
+</p><p id="382f203d-563a-43c5-9750-3de3b7872aed" class=""><strong>motivation</strong></p><p id="474061a4-c8cd-4e33-9e06-4f65c766ef41" class="">Armeria(아르메리아로 읽어라)의 아래 이슈를 맡기로하면서 OAS로 코드를 제너레이팅하는 기본 기능을 구현 후 어떻게 유저에게 좋은 인터페이스를 제공 할 것인가에 대해서 고민을 했다. 우연히 Kafractive를 최근에 둘러보면서 spring-shell에 대해 알게되어서 CLI형태로 지원해보는것은 어떨까란 생각이 들어서 CLI로 제공하려했다.</p><figure id="8fd4b0df-1f4c-4ee5-b35a-43bf75d1b7dc"><div class="bookmark source"><a href="https://github.com/line/armeria/issues/1951#issue-476723420">Provide a way to support OpenAPI Specification · Issue #1951 · line/armeria</a><br/><a class="bookmark-href" href="https://github.com/line/armeria/issues/1951#issue-476723420">https://github.com/line/armeria/issues/1951#issue-476723420</a></div></figure><figure id="e8c5f7e2-49e5-44e5-9a93-362dafaf740b"><div class="bookmark source"><a href="https://github.com/gnu-gnu/kafractive">gnu-gnu/kafractive</a><br/><a class="bookmark-href" href="https://github.com/gnu-gnu/kafractive">https://github.com/gnu-gnu/kafractive</a></div></figure><p id="63a7574f-3cb9-41b0-ab89-c928d6b27dc7" class="">
+</p><p id="2f72c970-a330-4939-8a1b-7f5224ecdbae" class="">하지만 다른문제점으로 유저에게 jar파일로 주면 유저가 알아서 java -jar [파일명] 이런식으로 사용 할 수는 있겠지만 더 편한 방밥이 없을까 고민하던중 graalVM으로 native-image로 제공하는건 어떻냐는 갓님의 말씀에 graalVM으로 새로 시도해보는것도 재밌을것 같아서 하게 되었다. </p><p id="0227bfae-1355-44c0-878e-6535de968de1" class="">
+</p><p id="72bb412a-ae21-4e03-85b5-9c335920f009" class="">
+</p><h2 id="8300daef-a7f7-42ef-8f99-d1cc5037b166" class="">작업 순서</h2><p id="0ff71c27-9cea-436c-aae3-451015f44e00" class="">
+</p><h3 id="c67a45bd-08d7-41d4-9df7-9725902e3331" class="">GraalVM 설치</h3><p id="f84e0999-f679-44f9-920d-d3314778f785" class="">
+</p><p id="07dced7a-bcbe-4176-b192-90778719f62c" class="">Getting started, <a href="https://www.graalvm.org/docs/getting-started/">https://www.graalvm.org/docs/getting-started/</a></p><p id="c126fd1f-cf6a-4a1e-964b-e3af87a308e8" class="">
+</p><p id="b09cb146-3fdb-4ff6-bf29-d7df36bb06ac" class=""><code>gu</code> 설치 후 community version 설치 </p><pre id="ab997aad-038d-41f7-b188-f54692f07ddc" class="code"><code>gu install native-image</code></pre><p id="5a2c2880-843a-4ac2-81d3-de729c1a4678" class="">
+</p><h3 id="4ad8b0fe-2690-49c0-ab09-c24407122983" class="">Spring-shell</h3><p id="75e6b16a-6670-4ba3-a6cd-d21fa267e62a" class="">
+</p><p id="2e0fa2e3-9841-46e4-b82c-2bbbad3deb85" class="">Spring-shell로 간단히 작성 한 프로그램에 대해서 Native-image를 이용해 빌드를 해보았다.</p><p id="779312fb-2bce-4335-acd1-2dbb341d9745" class="">--no-fallback: 이슈가 있는경우 런타임에 JVM을 사용하도록 만들어져서 fallback을 시도하지 않도록 한다.</p><pre id="5a6495ff-998e-4ad3-a7a7-db2d209ddd46" class="code"><code>native-image --no-server --no-fallback -jar api-generator-0.94.1-SNAPSHOT.jar</code></pre><figure id="dfcfdb27-e53e-4aee-9ad1-b12b4049e7d8" class="image"><a href="GraalVM Native Image/Untitled.png"><img style="width:1242px" src="GraalVM Native Image/Untitled.png"/></a></figure><p id="7bcae413-c8ba-4eb4-ad7d-66672ec3afff" class="">com.oracle.svm.hosted.substitute.DeletedElementException이라는 Exception이 뜨는데 해결한 케이스인 경우는 이것을 런타임 Exception으로 넘기기위해서 <code>--report-unsupported-elements-at-runtime</code> 플래그를 사용한다. 이 플래그는 지금 빌드단계에서는 그냥 빌드하고 런타임에 Exception을 던진다.</p><p id="fccae7a6-d259-4cf4-9512-b17498452fe1" class="">
+</p><p id="a1b0edd0-a145-4221-a949-0e6c4e533226" class="">그리고 위의 플래그로 다시 만든 이미지로 실행해보면 아래와 같은  Excpetion이 일어난다.</p><figure id="137d5c10-554c-4617-a5c8-ed63aade4e90" class="image"><a href="GraalVM Native Image/Untitled 1.png"><img style="width:812px" src="GraalVM Native Image/Untitled 1.png"/></a></figure><p id="34656d77-430e-4994-b4dc-d7d330a2512d" class="">
+</p><p id="8ea694b7-791b-428f-ae62-dea1a3f6df2a" class="">위의 Exception을 해결하려고 우선 구글에 검색을 해보면 직접적인 방법이 아닌 JAVA버전을 바꿔서 해결을 하는 방법 외에는 대부분 답글을 안달았다. 하지만 JAVA 버전은 graalvm을 사용하기때문에 1.8고정이고, 이미 document를 읽으면서 왜 문제가 있나 의심이 되는 부분이 있었다.</p><p id="f456a700-103f-4c76-a14b-a31603c4ea80" class="">
+</p><h3 id="a243f494-817d-40a1-9ebf-e060879def33" class="">GraalVM Native-Image LImitation</h3><p id="97148203-e9a8-4efc-a732-cf2c20efb5f4" class="">GraalVM Native-Image는 모든 자바의 피쳐를 제공하지않으므로 제약이 있는데, 아래의 표와 같다.</p><p id="d5b56c7a-3dcb-4f7b-926b-518beb46dc24" class="">
+</p><figure id="9ad318be-12e1-4726-8fd4-20a82457c141" class="image"><a href="GraalVM Native Image/Untitled 2.png"><img style="width:868px" src="GraalVM Native Image/Untitled 2.png"/></a></figure><figure id="7883f949-c6d9-4c59-8cf7-afcec81c439d"><div class="bookmark source"><a href="https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md">oracle/graal</a><br/><a class="bookmark-href" href="https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md">https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md</a></div></figure><p id="0a5294be-419b-4a60-a80f-2d1cf789508b" class="">
+</p><p id="79d90815-4eb6-41cd-a4ba-f1e9e199a4ae" class="">
+</p><p id="0a750ac7-6983-4d4b-b8e5-1a9d2ed25090" class="">이게 무엇이 문제이냐면 spring-boot를 사용하여 문제가 있었다. (spring은 DI를 위해서 Reflection을 많이 사용하고 그 외에도 위에 해당되는 제약이 있을수 있을듯 하다.)</p><p id="2c269891-4ab9-48a6-8bde-1ee3defd105f" class="">그리고 graalVM이슈에서도 spring-boot에 대한 제한이 있다는것을 issue에서 확인했다. aclement라는 아재가 graal 지원을 위한 spring boot 서브 프로젝트를 만드는것을 확인했다.(현재는 Springframework 레포에 experimental단계에 있다.)</p><figure id="7e946443-f964-4d7f-940f-afec07e9043d"><div class="bookmark source"><a href="https://github.com/spring-projects-experimental/spring-graal-native">spring-projects-experimental/spring-graal-native</a><br/><a class="bookmark-href" href="https://github.com/spring-projects-experimental/spring-graal-native">https://github.com/spring-projects-experimental/spring-graal-native</a></div></figure><p id="732ea113-26d5-4757-b52e-943f108f95cf" class="">
+</p><p id="479b5805-16fc-44ff-89b7-b8b75acdde24" class="">결국 위의 experimental 프로젝트를 사용하면 되지만, 의존성에 experimental을 추가해도 되는가란 생각이 들어서.. 원래 기능은 mustache를 사용하는 POJO로 만들었기 때문에 CLI는 그냥 Plain JAVA로 만들려고 한다. (도망치는게 아니라 리소스를 아끼고 직접 argument 파서를 만다는 재미를 위한 선택이다.)</p><p id="2156839f-8c88-4f25-a0d1-d04f02e44c39" class="">
+</p><h2 id="8075abe4-be4c-4544-b875-f1ac118461bd" class="">결론 </h2><p id="63d82228-c3a2-4a90-97c0-17e688fcff68" class="">
+</p><ul id="364a2e65-68cd-464e-9993-7755fd04e1a5" class="bulleted-list"><li>Spring앱을 Native-Image로 만들려면 아래 링크의 exprerimental 프로젝트를 사용해라(2019.11.03)</li></ul><figure id="d1c35abd-8f7e-4e92-a58a-c6fa5abcdc60"><div class="bookmark source"><a href="https://github.com/spring-projects-experimental/spring-graal-native">spring-projects-experimental/spring-graal-native</a><br/><a class="bookmark-href" href="https://github.com/spring-projects-experimental/spring-graal-native">https://github.com/spring-projects-experimental/spring-graal-native</a></div></figure></div></article></body></html>

@@ -1,0 +1,583 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Apache Kafka를 이용한 EDA 설계에서 고민한 기록</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	opacity: 0.5;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif; }
+.mono { font-family: Nitti, 'Microsoft YaHei', '微软雅黑', monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, Nitti, 'Microsoft YaHei', '微软雅黑', monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5697e402-a2c9-4a05-9a4d-3787502c439e" class="page sans"><header><h1 class="page-title">Apache Kafka를 이용한 EDA 설계에서 고민한 기록</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th>Created</th><td><time>@Oct 31, 2019 2:33 PM</time></td></tr><tr class="property-row property-row-multi_select"><th>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><h1 id="866f0e9d-5014-4665-aed2-6eb36372e818" class="">Kafka를 이용하여 EDA 설계에서 고민한 기록</h1><p id="ec0cc4de-22e1-4747-beb7-b355fda55aae" class="">
+</p><p id="97dba7d6-eef3-48fb-9bca-a79e4dd6227f" class="">현재 프로젝트를 진행하면서 EDA기반으로 설계를 하며 스스로 고민이 되었던 부분이나 한번 고민을 하고 넘어가야 할 것 같은 부분은 기록 하기위해서 시작</p><h2 id="936d0378-0b84-428b-a0a5-85bb6527b4eb" class="">설정</h2><p id="9069cf64-e7ac-4f42-929f-be25e08a3020" class="">
+</p><h3 id="2008e661-fa97-4acf-a18b-416eecd68d08" class="">Replication factor, Ack</h3><p id="4e20d5f9-b5c6-4e51-aeb9-7bb3d4e94f52" class="">
+</p><p id="edeee3cf-a73c-452a-84e9-12d48ea64f25" class="">운영 전이라 아직 크게 고민을 하지는 않았지만 짚고 넘어가야 하는 문제라고 생각한다. 보통 추천하는 설정은 replicationfactor 2나 3으로 한 후 다른 replica에 메시지의 복제가 일어나기 전에 leader가 다운 되는경우 메시지 유실을 방지하기위해서 Ack는 all로 설정을 한다. 현재 프로젝트의 도메인 내에서 메시지 유실에대해서 크게 영향이 있는지. replica까지의 복제가 다 완료되길 기다리는것이 모든 메시지에 적용이 된면서 리더 브로커에게만 받는거와 큰 차이가 있지 않을까 싶다.</p><p id="383d7bc1-583d-48b1-bf14-a719b28b6757" class="">
+</p><p id="208ab0c2-9ae3-4d98-bb12-36d6c76ecd4c" class="">우선 2, 3 그리고 ack는 -1로 설정을 해놓았다. 메시지 유실이 되면 결국 확인 후에 다시 요청을하여 가져올 계획이라 유실의 위험성이 적은 경우로 가기로 했다.</p><h2 id="9135f4d8-feda-436b-8bd3-dc2c5278c4f8" class="">구현</h2><p id="1835b83d-3efb-4669-a16d-0d24a5924746" class="">
+</p><h3 id="798a88cb-e260-48f7-a526-fcdbca0a68d6" class="">Exactly Once, At most Once, At least Once</h3><p id="efc3140e-b164-4849-ab18-5e0b99c20cf2" class="">
+</p><p id="1ca5ac76-7899-42ac-b2da-e7193bb1eb6e" class="">쌉고수님의 설명을 듣고 고민해보고 인사이트를 받았다. cloud compiuting pattern에서 위의 Exactly Once, At most Once, At least Once의 설명이 나와있다. 간단하게 말하자면 메시지를 정확히 한번, 최대 한번, 최소 한번 보내는 것에 대한 고민이다.</p><figure id="00e2f452-5d17-42ef-8a4e-e484beff817b"><div class="bookmark source"><a href="http://www.cloudcomputingpatterns.org/">Cloud Computing Patterns</a><br/><a class="bookmark-href" href="http://www.cloudcomputingpatterns.org/">http://www.cloudcomputingpatterns.org/</a></div></figure><p id="cb90185d-6fb9-4681-b060-ab1c54ee485b" class="">
+</p><p id="c8ec4403-4b5c-4afc-96bd-0713296ccbd6" class="">메시지 오퍼링 방법을 고민해 봐야하는 이유는 아래와 같다.</p><ul id="ac274f8d-bc0e-470d-a824-7ddc17501a8c" class="bulleted-list"><li>중복: 메시지를 소비하는 Consumer쪽에서 같은 메시지를 받아서 액션을 취하는 경우 멱등성이 보장이 안된다면 개발자의 의도와 다르게 흘러 갈 수 있기 때문이다. </li></ul><ul id="f7fe2719-bf7f-418c-a72b-2bde63f5ae79" class="bulleted-list"><li>유실: 메시지가 중간에 유실되어 Eventual consistency의 보장이 안된다. 정상적인 서비스의 동작을 기대 할 수 없다.</li></ul><p id="af9a7303-dfe3-4ec9-adb1-4dfe1cb1e4c8" class="">
+</p><p id="a4a153e9-50ab-46be-9e1c-da3424af7a88" class="">위와 같은이유로 고민을 하게되는데, 아래 cloud computing patterns 사이트에서 설명하는 각 메시지 오퍼링 방법과는 다르게  카프카는 더 심플 한 부분이 있다. at-most-once는 카프카 document의 <code>Message Delivery Semantics</code> 에 따르면 retries 설정을 0으로 하고 실패시에도 오프셋에대해 커밋을 하게 하면된다.</p><p id="9a31edff-fa04-42c5-9ee3-0e24c122f5f2" class="">at-least-once는 기본적으로 카프카에서 보장을 해준다고하여 Exactly-once의 케이스에 대해서 생각해 봐야하는데 이 케이스 좀 번거롭다. </p><ol id="411352fd-e81c-4f21-a803-430ffaaec6dd" class="numbered-list" start="1"><li><a href="http://kafka.apache.org/documentation/#upgrade_11_exactly_once_semantics">http://kafka.apache.org/documentation/#upgrade_11_exactly_once_semantics</a><ul id="2ccbc3cf-3da6-43bd-8433-9e8449225847" class="bulleted-list"><li>카프카 0.11.0부터 추가</li></ul><ul id="5cca7678-f517-4edb-9282-faab3aa890c5" class="bulleted-list"><li>idempotence 옵션 true</li></ul><ul id="76ff1679-7a25-4ece-96d3-9e67bb5c6691" class="bulleted-list"><li>카프카 버전 0.11.0의 메시지 포맷을 따라야한다.</li></ul><ul id="7d8d88eb-a5a5-4959-bc58-41203a7b13ad" class="bulleted-list"><li>기타.. 추가로 생성된 internal 토픽에 대해서 설정을 한다.</li></ul><ul id="ed895ef5-f7b3-45e0-82c1-8c3fb65f00d5" class="bulleted-list"><li>보안을 위해 .... 등등</li></ul></li></ol><ol id="7aa52686-029d-409d-9e57-51c85c41b40c" class="numbered-list" start="2"><li>Kafka Stream을 써라</li></ol><p id="73ae04c9-6466-4ff1-bde1-e341a4144fc7" class="">
+</p><p id="63cbf6fa-db46-44f6-b7b4-aab21d318dc7" class="">Stream 최고.</p><h2 id="dcf76a0e-3200-4663-8410-507548e7ce1d" class="">배포</h2><p id="0f9c8ecf-b140-413e-8b30-a4fb8a6f9b99" class="">
+</p><h2 id="f7fe18b0-36fc-41ee-8c1b-71f129b3ad14" class="">[WIP] Consumer</h2><p id="53c7664b-3962-4cba-8022-3972abb29da0" class="">
+</p><p id="1c8237ed-2789-47e9-9447-22425db8bbca" class="">막연하게 배포의 컨슈머라고 적었는데 카프카 컨슈머의 배포에 대해서 고민한다.</p><p id="118b9f34-327f-4570-8ab5-10959e867ad9" class="">고민의 시작은 blue-green 배포를 하면서 파티션의 수를 어떻게 할까에 대한 고민이었다. 배포시마다 귀찮게 파티션의 수를 두배로 설정해줘야 하는 것과(이 때 잘못알고 파티션의 수를 줄일 수 있는줄 알았다.), 2배로 하지 않으면 Blue-Green을 의도적으로 못하지 않을까라는 고민이었다.</p><p id="44d1dcab-7e6c-4bba-92f1-8c5e8872618d" class="">
+</p><p id="100fdbbc-b041-451b-b198-23d2330f424c" class=""><em><strong>마틴파울러의 블루그린 배포 정의</strong></em></p><figure id="eb753f67-96ac-4893-87ea-f409e4d38d57"><div class="bookmark source"><a href="https://martinfowler.com/bliki/BlueGreenDeployment.html">bliki: BlueGreenDeployment</a><br/><a class="bookmark-href" href="https://martinfowler.com/bliki/BlueGreenDeployment.html">https://martinfowler.com/bliki/BlueGreenDeployment.html</a></div></figure><p id="d503fee2-8a21-41ee-b70b-3e44114bcac4" class="">
+</p><p id="09419f1d-75b7-43e0-859d-5724dc11200d" class="">마틴파울러가 예시를 든 것 처럼 블루를 기존에 떠있는것, Green을 새로 뜨는것으로 가정을 하자면 기존은 블루, 새로운 인스턴스는 그린에서 그린이 뜨는경우 기존애 파티션의 수는 블루에서 인스턴스 * 컨슈머 스레드만큼의 개수만큼 있다면 그린이 새로 컨슈머 그룹에 들어가면서 블루에서만 컨슘을 하고 있었는데 리밸런싱이 일어나서 그린에서도 컨슘을 하게 될 수도있다. </p><p id="ede9ab69-5a39-4b9a-a023-b8679f2c44f7" class="">
+</p><p id="a0977fdb-1024-42cf-b2a5-cf06c297ccb3" class="">여기까지만 하면 어차피 배포할건데 무슨상관인데? 라고 생각 할 수 있으나 그럴거면 왜 블루그린 배포를 하는가이다. 블루그린 배포를 하며 이득을 얻을 수 있는점이 카나리아 릴리즈와 빠른 롤백인데 롤백은 그린을 빠르게 끄므로 할 수 있다고 하면, 블루와 그린의 비율은 개발자가 의도적으로 조절 할 수없다. 조절을 하려면 그린의 인스턴스와 블루의 인스턴스의 수를 조절해야한다. 왜냐면 카프카 컨슈밍은 어떤 인스턴스가 할 지 모르기 때문이다.(쿠버환경에서는 서비스를 통해서 카나리아 릴리즈를 한다고 알고 있다. 쿠버가 아니라면 사내 환경)</p><p id="a0bddf3d-071c-4847-bbb1-b7a667e53519" class="">
+</p><p id="45efda09-fec0-4efe-8cf5-c649161e1cd0" class="">이후 고민으로 아니면 애플리케이션 단에서 조절을 할 수 있도록 하면 어떨까라는 고민을 했는데 실제로 컨슈밍 하는 인스턴스만 라벨링을 한 후 headless 서비스 라벨셀렉터에서 이 라벨만 참조를하면 내가 띄운 애플리케이션에서 nslookup을 통해서 나 자신이 지금 서비스를 해도 되는 pod인가를 체크하는 로직을 넣으면 되지 않을까(아니면 현재 내가 속한 pod의 label을 알 수 있다면) 싶다.</p><p id="eca25de2-35c4-4cb2-aaf4-f1dc55602fc3" class="">
+</p><p id="3b88b703-20e4-45a8-a513-7dd15d4f2126" class="">다른 배포로는 롤링업데이트가 있는데 11번가의 발표에서 이는 리밸런싱에 대한 리소스 때문에 안하고 배포를 잘 하지않을 게이트웨이를 컨슈머로 두고 다른 서비스들이 게이트웨이에서 메시지를 받아 사용하는 형태로 하였다.</p><p id="ef9705cf-1720-4d0d-9e94-190491206f13" class="">
+</p><p id="72b48869-5b63-402a-b23a-c6ff27fc2a5c" class="">아직 배포전략을 수립하지 않고 고민에대해서만 적어서 이후 추가 될 수도 있다.</p><p id="c4604e73-937b-4212-b62f-c47a8b472ce9" class="">
+</p></div></article></body></html>
