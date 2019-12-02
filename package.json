@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "publush": "git push",
+    "publush": "node smelt.js && git add pages && git commit -m 'update doc' && git push origin gh-pages",
     "smelt": "node smelt.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
