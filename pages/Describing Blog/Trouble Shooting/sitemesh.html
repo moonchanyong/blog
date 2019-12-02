@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Trouble Shooting</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>sitemesh 데코레이터가 안 붙는이슈</title><style>
 /* webkit printing magic: print all background colors */
 html {
 	-webkit-print-color-adjust: exact;
@@ -562,4 +562,32 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="82b248d7-b384-4746-8141-9a37c4a5133c" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🔫</span></div><h1 class="page-title">Trouble Shooting</h1></header><div class="page-body"><table class="collection-content"><thead><tr><th>Name</th><th>Created</th><th>Tags</th></tr></thead><tbody><tr id="e169f0d6-12ac-4df6-b703-b8090e82c53b"><td class="cell-title"><a href="Trouble%20Shooting/sitemesh.html">sitemesh 데코레이터가 안 붙는이슈</a></td><td class="cell-}0Kk"><time>@May 16, 2019</time></td><td class="cell-Qp?e"><span class="selected-value">삽질</span></td></tr><tr id="dd1fa124-148f-4fef-a95f-0b2f3c03ffe9"><td class="cell-title"><a href="Trouble%20Shooting/IDEA%20Intellij.html">IDEA (Intellij 이슈)</a></td><td class="cell-}0Kk"><time>@Nov 26, 2019</time></td><td class="cell-Qp?e"><span class="selected-value">삽질</span></td></tr><tr id="2b8e3cdf-9755-4eed-9442-cd26d4ab4af8"><td class="cell-title"><a href="Trouble%20Shooting/Untitled.html">리퀘스트 방식 수정하기 작업 중 이슈</a></td><td class="cell-}0Kk"><time>@Feb 19, 2019</time></td><td class="cell-Qp?e"><span class="selected-value">삽질</span></td></tr><tr id="5eead6f4-15ab-4914-9a30-d74632e1cd25"><td class="cell-title"><a href="Trouble%20Shooting/udpate%20get_installed_distributions.html">자파 udpate시 get_installed_distributions 문제</a></td><td class="cell-}0Kk"><time>@Jun 18, 2018</time></td><td class="cell-Qp?e"><span class="selected-value">삽질</span></td></tr><tr id="fd3b18b1-21b3-4303-bdc7-5a9e6f1b8de2"><td class="cell-title"><a href="Trouble%20Shooting/GraalVM%20Native%20Image.html">GraalVM Native-Image 삽질</a></td><td class="cell-}0Kk"><time>@Nov 03, 2019</time></td><td class="cell-Qp?e"><span class="selected-value">삽질</span></td></tr></tbody></table></div></article></body></html>
+</style></head><body><article id="e169f0d6-12ac-4df6-b703-b8090e82c53b" class="page sans"><header><h1 class="page-title">sitemesh 데코레이터가 안 붙는이슈</h1><table class="properties"><tbody><tr class="property-row property-row-date"><th>Created</th><td><time>@May 16, 2019</time></td></tr><tr class="property-row property-row-multi_select"><th>Tags</th><td><span class="selected-value">삽질</span></td></tr></tbody></table></header><div class="page-body"><p id="aa80f2ef-aa6b-426a-9b48-aeddbb23a8fb" class=""><em>2019년에 sitemesh?? 나도 안다. ㅇㅇ .. ㄹㄱㅅ ㅇㅈ</em></p><p id="0080c7c1-b834-485c-b47d-fac77557fe7f" class="">
+</p><h2 id="0292ffb9-da2b-4c82-91eb-565956ca7ecd" class=""><strong>CONTEXT</strong></h2><p id="9892e085-76fe-4096-b429-6a1c86911fc8" class="">1. DB 데이터를 조회하는 뷰에서 특정 컬럼을 넣으면 뷰가 꺠지는 현상 발생</p><p id="cb14fa01-dc15-4db2-9f2a-6a2813e73a47" class="">2. console을 통해 보았더니 JS 라이브러리가 import가 안되고, head에 script태그가 안들어가 있다.</p><p id="098ae720-7084-4a94-8ffc-24495e9af238" class="">3. decorator를 통해서 헤드에 임포트 할 라이브러리를 넣어주는데 특정 데이터의 컬럼을 임포트하면 데코레이터가 동작을 안한다</p><h2 id="ebcc2c56-71b9-4d22-bdbc-8ce3350f4932" class=""><strong>접근 💫</strong></h2><h3 id="a61aa5f9-8acf-4598-aec3-a9a25a84fce4" class=""><strong>FRONT 에서 BACK 방향으로 접근</strong></h3><p id="5fbb5f12-ce49-415c-9c13-2f2cbcd286f2" class="">1. network 탭 확인</p><pre id="2753ec61-d030-4a99-83d3-f517d1967e62" class="code"><code>네트워크 탭에서 리퀘스트에서 뷰가 꺠지는 경우와 안 깨지는 경우 달라진 점이 있나 확인 =&gt;
+
+특정 정려 관련 파라미터의 유무 확인 하여 추가해봄 =&gt; 동작 =&gt;
+
+정렬관련 디폴트로 추가하려고 처리 중 스멜을 캐치 =&gt;
+
+정렬은 데이터의 출력 순서만 바뀌는데 이게 이슈가 있을까?? =&gt;
+
+그 생각대로 뷰가 로딩되는 첫 페이지가 아닌 다른페이지에서 같은현상 발생</code></pre><p id="cad380fe-c877-457f-90fb-b081c2bf731c" class="">
+</p><p id="1d04d0bc-ad6d-4917-96c9-603de0d8f6d6" class="">2. decorator 기능을 제공하는 sitemesh 확인</p><pre id="876ba0c0-30f2-4110-b309-76170ad83c36" class="code"><code>데코레이터를 붙이는 동작을 하는경우 이상이 있을 것 같아서 sitemesh 라이브러리 내에서 브레이크 포인트 몇개 놓고 어떤 데코레이터를 사용하는지 판별하는지 확인 =&gt;
+
+request URL패턴으로 지정하여 같은 URL인 경우 동작해야하는데 path mapper에서 지정한 데코레이터의 해쉬맵에 문제 상황에서는 없다. (문제 상황과 정상적인 상황에서 다른 Path Mapper instance를 참조) =&gt;
+
+어째서 위와 같이 다른 객체를 참조하여 처리하는지 원인을 찾아야함 =&gt;
+
+나는 게으르기 때문에 방향을 바꿈</code></pre><p id="be53d1a0-acd0-4c98-a404-4293ecae4eac" class="">
+</p><h3 id="c96024cc-6e2a-48bc-96ab-08a0f1eb2ecc" class=""><strong>BACK에서 FRONT로 접근</strong></h3><p id="143f305d-d253-45ff-ae69-ce0210f9dfac" class="">3. 문제가 되는 데이터를 찾아보자</p><pre id="3341cede-b3ac-4c17-8518-10ac48c28f95" class="code"><code>페이지들의 데이터를 각자 요청을 해보았는데 특정 데이터만 문제가 발생 =&gt;
+
+해당 데이터의 값중에 문제가 될 만한 값이나 다른 데이터에는 없는 값을 확인 =&gt;
+
+&lt;Frame blah blah&gt; 라는 문자열을 발견... =&gt;
+
+해당 문자열을 지우니 동작</code></pre><p id="85364fde-b887-4f31-88f7-3a523fc41fcf" class="">
+</p><h3 id="609f4fdd-8b55-4be8-a709-31e6bc2bb91a" class=""><strong>🌚 원인</strong></h3><pre id="8e3a07e8-a72d-4de3-bf4d-f81300274fb0" class="code"><code>sitemesh에서는 여러 데코레이터 매퍼가 존재하는데 &lt;FRAME *&gt;이라는 패턴이 발견이 되면 frame기반 데코레이터 매퍼를 사용(전시회이름인데 하필 전시회이름과 전시회 이름 표기법이 맞아떨어짐;)</code></pre><p id="faefbbed-b0e3-4a92-9c05-35e6729b3b13" class="">
+</p><figure id="126537ed-f791-4e62-838e-1c011ce2e843" class="image"><a href="sitemesh/sitemesh_mapper.png"><img style="width:1310px" src="sitemesh/sitemesh_mapper.png"/></a></figure><p id="34fba54a-b129-4ec2-a070-a4ab3f7f445d" class="">
+</p><h3 id="a9dce35a-09ab-427d-9436-780b268408a3" class=""><strong>해결 🌝</strong></h3><p id="89c7b5a3-e73e-4c98-be12-6ad4ab3f9ffa" class="">
+</p><p id="d376b433-2634-4549-a4f5-250d05731c27" class="">해결은 각 컨텍스트마다 최적의 해법이 다르기 떄문에 적을 필요 없을듯</p><p id="72ad338d-0ebf-46f1-b80b-31cfa60c44ba" class="">
+</p><p id="e084dd5d-0280-46f5-9220-6fcabc0e271c" class=""><strong>수고링 ✈ ️</strong></p></div></article></body></html>

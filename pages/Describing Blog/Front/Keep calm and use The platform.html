@@ -1,0 +1,667 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Keep calm and use The platform</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	opacity: 0.5;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif; }
+.mono { font-family: Nitti, 'Microsoft YaHei', '微软雅黑', monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, Nitti, 'Microsoft YaHei', '微软雅黑', monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9cf4214e-ae08-4101-b022-4f3dab9e7319" class="page sans"><header><h1 class="page-title">Keep calm and use The platform</h1><table class="properties"><tbody><tr class="property-row property-row-date"><th>Created</th><td><time>@Jul 09, 2018</time></td></tr><tr class="property-row property-row-multi_select"><th>Tags</th><td><span class="selected-value">공부</span></td></tr></tbody></table></header><div class="page-body"><p id="79ffeb18-9cee-425f-a9eb-4706cbc74419" class="">
+</p><h1 id="e55cee8f-72e0-4a1a-a9e2-c7d1bc58eeda" class=""><strong>웹 컴포넌트 공부하기</strong></h1><p id="fd337236-ce76-4266-8fd3-2b65bfa46773" class=""><a href="https://github.com/nhnent/fe.javascript/wiki/April-24---April-28,-2017">자료출처 NHNent</a></p><h2 id="bd255791-c03c-40b0-885d-31134d8bc288" class=""><strong> Keep calm and use The platform</strong></h2><p id="6d8b807f-9088-42e0-bdbf-ca9c16135c50" class="">침착하고 플랫폼을 이용해! =&gt; 플랫폼은 브라우저를 일컫는다.</p><p id="a2e273d0-7b45-4ede-9777-461ac86a415d" class="">현재는 프레임워크 전성시대. 제이쿼리를 선두로 앵귤러, 뷰, 리액트 등 여러 프레임워크가 웹시장을 점령하고있다. 하지만 프레임워크는 앱을 무겁게 만들고, 리소스를 사용자에게 전가 시키며, 프레임워크 종속적인 코드를 생산한다.</p><p id="c2562567-530a-4f90-ac9e-7c4b4717b7bf" class="">그리고 구글이 제시한 이러한 문제들의 해결방법은 Keep calm and use The platform. 문제를 프레임워크 대신 브라우저 기능을 사용하여 해결하면 프레임워크를 가볍게 마늗ㄹ어도 되고, 더 적은 자바스크립트 코드를 사용하게되어 표준 코드로 만든 성능 좋은 앱을 만든다.</p><p id="16ea7663-1178-49d4-814b-cb02d4a3b2a3" class="">가능을 표준으로 정하고 표준대로 코딩하자</p><h2 id="08edc604-99cd-4ffa-a32d-d60f0897a73f" class=""><strong> 웹 컴포넌트란</strong></h2><p id="d5dc55c3-573b-4b1a-9d90-21ba10028144" class="">* 자바스크립트, CSS, HTML을 컴포넌트화 하기위해 필요한 4개의 표준을 묶어서 부르는 이름</p><h2 id="4154fd01-dee3-47a2-9533-3e0fb34c1d29" class=""><strong>커스텀 컴포넌트</strong></h2><p id="ffaf97e9-d571-4987-a945-16a63f2a289f" class="">W3C에서 Custom Elements 표준 서문은 이를 새로운 DOM Elements를 정의하고 사용하는 방법이라 말한다. -&gt; HTML의 부족한부분을 직접 태그와 클래스의 연동으로..</p><h3 id="61ed5b84-906f-4ef9-a4ea-971fd38cc522" class=""><strong>class js of custom component &amp; js for manipulating dom</strong></h3><ul id="966de892-579f-49b8-91fc-1a9548a14ff5" class="bulleted-list"><li>결론을 말하면 돔을 다루는 자바스크립트 코드는 자바스크립트가 엘리먼트를 다룬다(엘리먼트는 프로퍼티에 저장하고 조작해야할 3인칭 대상) =하지만&gt; Custom Element는 클래스의 인스턴스 this가 엘리먼트 인스턴스이다. 엘리먼트의 라이프사이클을 맞추기위한 Mutation Observer가 필요없다.</li></ul><h3 id="40085801-0325-46a9-b160-7b5222086671" class=""><strong>custom element 등록하기</strong></h3><pre id="dd5f6194-609f-498d-bb5c-efcbcec86cc8" class="code"><code>&lt;!-- CustomElementRegistry에 명시한 태그와클래스를 묶는 역할을 한다. --&gt;
+window.customElements.define(&#x27;명시한 태그&#x27;, class extends HTMLElement {});</code></pre><p id="041341f3-fdb5-46e3-9aae-1ad2b4c879fb" class="">
+</p><p id="f00da8da-96c1-4ab7-800e-8beeca85ad67" class=""><strong>custom element naming convention</strong> </p><ul id="60a1d589-453b-4c1e-9b24-ad9aa63ea8bc" class="bulleted-list"><li>예약된 키워드를 피하자</li></ul><ul id="9a22b79f-ee92-4270-a641-b37a8a8436f7" class="bulleted-list"><li>&#x27;-&#x27;를 1개이상 포함하자</li></ul><p id="e7747fa5-6c59-421a-8626-fad78b6f6e9e" class="">
+</p><p id="016fd156-656d-40ff-a303-b0cb107c358a" class=""><strong>HTML Element의 상속과 constructor</strong></p><ul id="b393ed52-52bf-4de7-9c57-5bf6315a7023" class="bulleted-list"><li>Custom Tag가 DOM에 추가 될 때 클래스의 constructor가 똑같이 동작한다.</li></ul><ul id="4baea1a2-5f70-44e1-a899-bec0748d5923" class="bulleted-list"><li>HTMLElement를 상속받은 Custom Elements의 constructor의 실행 시점은 아직 DOM에 추가되지 않은 상태이다. constructor 에서는 어떠한 DOM조작도 할 수 없다. 그러므로, 이곳에서는 DOM과 무관한 클래스 인스턴스 자체의 준비만 해야한다.</li></ul><pre id="cad8012c-518b-4b8a-9f48-d1b52ff5d3f3" class="code"><code>// good
+
+constructor(val) {
+
+super(); // 항상 맨 앞에!
+
+console.log(&#x27;yey!&#x27;); // yey
+
+console.log(val); // val 출력
+
+}
+
+// bad
+
+constructor() {
+
+super(); // 항상 맨 앞에!
+
+console.log(this.parentNode); // null
+
+console.log(this.firstChild); // null
+
+console.log(this.innerHTML); // &quot;&quot;
+
+console.log(this.getAttribute(&#x27;locale&#x27;)); // null
+
+this.setAttribute(&#x27;locale&#x27;, &#x27;ko-KR&#x27;); // 에러: Uncaught DOMException: Failed to construct &#x27;CustomElement&#x27;: The result must not have attributes
+
+this.innerText = &#x27;Arr&#x27;; // 에러: Uncaught DOMException: Failed to construct &#x27;CustomElement&#x27;: The result must not have children
+
+}</code></pre><p id="b310aba7-41c5-4809-a3ff-04cdc50b056a" class="">
+</p><p id="2df28c4b-5bc1-4db8-a20d-d8f41f020897" class=""><strong>connectCallback &amp; disconnectedCallback</strong></p><ul id="f5e5e551-259a-46f0-b6f2-486cb586300b" class="bulleted-list"><li>(HTML Element를 상속받았을 경우)<ul id="d2e6a1aa-f08d-4e46-a525-ce76a98f3bd1" class="bulleted-list"><li>connectedCallback: DOM에 추가 되었을때 =주의점&gt; custom element가 DOM에 추가 될 때는 child element가 아직 DOM에 추가 되지 않아있다.(당연한건데 놓치기 쉬울 것 같다.) 그래서 자식 Element에 접근을 할 수 없다.</li></ul><ul id="a8edc82f-b325-4f80-8284-7ceafd9a7dbc" class="bulleted-list"><li>disconnectedCallback: DOM에서 제거 되었을때.</li></ul></li></ul><p id="6f7d2441-95ef-4238-aef7-1d5903218d3d" class=""><strong>attributeChangedCallback &amp; observedAttributes</strong></p><ul id="5732852f-d327-4a5e-a5b2-e6b95d63f742" class="bulleted-list"><li>observedAttributes: 모니터링 할 속성 이름 추가</li></ul><ul id="78e020d2-aa66-4da3-b61a-fcc585262786" class="bulleted-list"><li>attributeChangedCallback: 속성이 변경 되었을때 콜백</li></ul><p id="4be4097d-1aaa-4bb1-a4d7-fbf6d7982a14" class=""><strong>adoptedCallback</strong></p><ul id="dc90c5c4-a3f5-4ded-beb0-c2186d37930d" class="bulleted-list"><li>해당 엘리먼트가 다른 Document에서 옮겨져 올 때 수행 =&gt; document.adoptNode()가 이 Element를 대상으로 실행 되었을때.</li></ul><p id="1b9a9806-4ddf-484e-8fc7-7a9d0b995733" class=""><strong>upgrade</strong></p><ul id="a5149a71-a297-4b2d-bf59-510b577a3792" class="bulleted-list"><li>CustomElements.define메서드를 통해 선언되지 않았지만 DOM에 있는 ELEment는 Span과 동작한다. 추후 Custom Elements.define을 통해 선언되면 주어진 클래스를 묶어주는 동작</li></ul><ul id="9c7f52ed-8b01-4da4-a0cf-46fc357ec1b9" class="bulleted-list"><li>=왜&gt; 이 동작은 DOMContentLoaded 이벤트를 보고 인스턴스 초기화 하는 이유와 마찬가지로, DOM이 생성된 이후, JS가 수행될 경우, DOM에 있는 Custom Elements는 스타일도 동작도 못가진 채로 화면에 노출 될 수있어서이다.</li></ul><ul id="d56f78ef-3aa4-44e0-ac9a-d41e4c58affc" class="bulleted-list"><li>이를 극복하려면.. [defined pseudo](https://www.w3.org/TR/custom-elements/#selector-defined) 클래스를 사용하라고 한다</li></ul><pre id="7a77f6c8-824c-4d8f-855e-a8563ebdbb5c" class="code"><code>current-time:not(:defined) {
+
+display: hidden;
+
+}</code></pre><p id="3d8a1ba7-69c8-4d8b-a9fb-f555b0a32004" class="">
+</p><p id="4684509d-c0da-4569-9a9f-0546dce20663" class=""><strong>childElement</strong></p><ul id="afc3b148-f32e-4e09-9833-47838fa8ae7a" class="bulleted-list"><li>부모엘리먼트가 생성돠었을때 child에 해당하는 작업을 수행하지 말고, ChildElement에서 DOM에 추가되었을때(connectedCallback) 부모 Element의 메소드를 실행시킨다.</li></ul><p id="f3751772-f281-41a6-8974-479a48343123" class=""><strong>break time Mutation observer</strong></p><p id="08328393-1e45-450e-9a2c-b1bc7df20701" class=""><strong>[Mutation Observer](</strong>https://developer.mozilla.org/ko/docs/Web/API/MutationObserver<strong>)</strong></p><ul id="2f4775de-7ff2-4e58-b11f-02cea58a9285" class="bulleted-list"><li>개발자들에게 DOM 변경 감시를 제공한다.</li></ul><ul id="b5287412-d7bf-4ab9-a085-31cbea964c98" class="bulleted-list"><li>Mutation Events를 대체한다.</li></ul><p id="b9bc14ec-7181-4adb-a818-d4fc3e90f73d" class=""><strong>custom element 브라우저 지원</strong></p><ul id="b2affda7-fb16-4a5a-97dc-b24448716a0a" class="bulleted-list"><li>can i use에서 확인해본 결과 기본적으로 지원은 안하지만 사용은 할 수 있는 곳이있다 IE는 지원안해서 현재는 polyfill로 지원한다고 한다.</li></ul><h2 id="b2d15d5b-36a3-4a3f-81b0-ec9072b5d1bc" class=""><strong>Shadow Dom</strong></h2><ul id="b8eab5a5-f6d7-416d-9bf1-15b51e9965cc" class="bulleted-list"><li>HTML, css 에 OOP처럼 은닉이 가능하게한다. =&gt; 실제로 접근을 하지말고 속성을 통해서 엘리먼트의 상태 변화를 일으키자.</li></ul><ul id="a981754f-0cd2-4702-9aa7-15614a6ab4be" class="bulleted-list"><li>스코프를 나눈다.</li></ul><ul id="07cc1035-f8f8-46fe-8553-2b24280084ac" class="bulleted-list"><li>장점: 스코프를 나누기, iframe대비 장점으로 http요청이 1번 줄고, 별도의 페이지가 아니라서 리소스가 낮고, 도메인이 아니어도 접근이 가능하다. + slot</li></ul><ul id="54b35b91-ad0d-458e-831c-760977efba69" class="bulleted-list"><li>라이트 돔 =&gt; slot에 삽입</li></ul><h1 id="d7246378-f717-4702-b4e2-1761d344f17e" class=""><strong>polymer3 분석하기</strong></h1><h2 id="8f0663f3-93a8-419f-872d-57e782951812" class=""><strong>폴리머 스택을 가질까 말까 고민 중..</strong></h2><ul id="488a87bf-c3f7-40af-a7f2-fe028cfb523f" class="bulleted-list"><li>긍정적 측면<ul id="c839a1cf-0ac0-4028-9915-41f52d86ff1b" class="bulleted-list"><li>폴리머, 웹컴포넌트 기반이라 폴리머팀의 폴리필(11kb)로 모든 브라우저에서 지원가능하다.</li></ul><ul id="0b6bf46c-ebeb-4478-a4cb-7675fe29ed51" class="bulleted-list"><li>앵귤러 처럼 데이터 바인딩 등 비슷한 문법을 내포한다.</li></ul></li></ul><ul id="8fd580c6-c5e4-41d9-bed0-85162d363496" class="bulleted-list"><li>부정적 측면<ul id="86032317-b37a-4eb5-ba65-7a61a8bceaed" class="bulleted-list"><li>내가 이 프레임워크를 쓰게 될까? (개인적으로는 쓸것 같다.) =&gt; 답이나왔다. 개인 공부로 하자</li></ul><ul id="eace89cf-62e9-4e22-8f8b-35f052d15942" class="bulleted-list"><li>지금 과제에 집중할 때이다.. 퇴근하고 과제에 관련된 공부 하는게 좋지않나 ? =&gt; 맞는말이다.. 그럼 공부할게 없을때 폴리머를 해보는건 ?₩</li></ul></li></ul><h2 id="35e4649b-2b38-4c39-bbe7-01004c37ac35" class=""><strong>lit-html</strong></h2><ul id="fdfcfc23-9bf6-4fe5-bcc0-a18c3d686c06" class="bulleted-list"><li>lit은 리터럴, 원래 웹컴포넌트 초기에는 템플릿 엘리먼트지원과 link 태그의 import를 지원 하려고 했다. 하지만 대표적으로 파이어폭스에서 import지원을 안하겟다고 말한다.</li></ul><ul id="0b797632-74f5-48e4-9017-fc3f36f134dc" class="bulleted-list"><li>타당한 이유가 있다고한다. 쨋든 그래서 방향이 바뀌어서 html import를 대신해서 html이아닌 js를 가져오도록, 마크업은 template 대신 template literal을 사용하려고 방향이 바뀌엇다.</li></ul><h3 id="3abd096a-1e0f-4631-904e-f92c7c66f340" class=""><strong>html tag</strong></h3><ul id="55f13d02-3e62-42ca-8047-d71641d03c3e" class="bulleted-list"><li>html tag of polymer</li></ul><pre id="b7704d48-f186-41aa-a4bb-7d42052f0cb9" class="code"><code>&lt;!-- html template로 만든다. --&gt;
+
+exports.html = function html(strings) {
+
+var values = [];
+
+for (var _i = 1; _i &lt; arguments.length; _i++) {
+
+values[_i - 1] = arguments[_i];
+
+}
+
+var template = /** @type {!HTMLTemplateElement} */ (document.createElement(&#x27;template&#x27;));
+
+template.innerHTML = values.reduce(function (acc, v, idx) {
+
+return acc + htmlValue(v) + strings[idx + 1];
+
+}, strings[0]);
+
+return template;
+
+};</code></pre><p id="ba2f00f7-7b9a-4f3f-a9b9-3122b074314f" class="">
+</p><h3 id="ce28f560-e911-4816-a06b-813146e063c8" class=""><strong>shadow dom</strong></h3><pre id="51cb8393-3517-4de6-9eba-65f4bcfaf3c0" class="code"><code>&lt;!-- template 생성시 shaodw dom으로 적용 --&gt;
+
+static get template () {return html`some template`;}</code></pre><p id="eaa2145b-0fe7-4016-9467-9952cdb34518" class="">
+</p><h3 id="50ccc579-e98f-4142-a29d-e402e5881b81" class=""><strong>user data binding</strong></h3><ul id="f4855729-d31f-460d-a9b2-f7bc942b77b8" class="bulleted-list"><li>표준 커스텀컴포넌트는 와칭할 속성값을 추가하지만, 값을 추가하면 자동으로 바인딩된다.</li></ul><ul id="1f99dc4f-2f28-43cd-8775-14d224197cd9" class="bulleted-list"><li>변화전파에 빠르다. =&gt; 렌더링콕스트를 줄인다.</li></ul><ul id="90776251-28b2-445c-ba3f-bab6c1b8b119" class="bulleted-list"><li>{{}} 이중 브라켓으로 씌우면 데이터 바인딩이 된다.</li></ul><p id="18cac2db-0318-4e79-8ad2-b0d8470ea9ad" class="">
+</p><pre id="f8ec10dc-73d0-4aac-b376-2b9022be73d5" class="code"><code>&lt;!-- this.data 변경시 자동으로 적용 --&gt;
+
+static get template () {return html`some {{this.data}} template`;}</code></pre><p id="ae573f7b-e749-457c-8f65-833c30faf150" class="">
+</p><h3 id="48c3ecdf-8c8b-4fca-99d3-b0bb0116b76a" class=""><strong>declare property</strong></h3><pre id="0d14c33f-3067-491d-98ce-a7e027ea70e5" class="code"><code>static get properties () {
+
+return {
+
+// Configure owner property
+
+owner: { // watching attribute
+
+type: String,
+
+value: &#x27;Daniel&#x27;, //default value
+
+}
+
+};
+
+}
+
+&lt;!-- property bind [[]] --&gt;
+
+static get template () {
+
+return html`
+
+&lt;!-- bind to the &quot;owners&quot; property --&gt;
+
+This is &lt;b&gt;[[owners]]&lt;/b&gt;&#x27;s name-tag element.
+
+`;
+
+}
+</code></pre><p id="a6701838-5389-48f6-8b0c-53c480705d09" class="">
+</p></div></article></body></html>
