@@ -1,0 +1,620 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>[WIP] JAVA</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	opacity: 0.5;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif; }
+.mono { font-family: Nitti, 'Microsoft YaHei', '微软雅黑', monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, Nitti, 'Microsoft YaHei', '微软雅黑', monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="603a8dff-1ac8-41ca-92ab-902de35095dc" class="page sans"><header><h1 class="page-title">[WIP] JAVA</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th>Created</th><td><time>@Dec 25, 2019 3:53 PM</time></td></tr><tr class="property-row property-row-multi_select"><th>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><p id="5cf76cda-dae3-4609-841d-012cc19cb5d7" class=""><em><strong>크리스마스를 맞이 JAVA 알아보기</strong></em></p><p id="73745a2e-7661-4cca-a972-20812c37b09b" class="">
+</p><p id="6a1e417b-4b61-4123-b841-378edd111ded" class="">
+</p><h2 id="085d66f5-e427-4953-9677-00b4b10daff0" class="">James Gosling - The Feel of Java (June, 1997)</h2><p id="44662a4d-4a15-4122-9ebc-af98126ee25a" class="">
+</p><p id="8cc753bb-fea9-4f74-89da-3c689d1c57df" class=""><em><strong>읽다가 재미없어서 안봄</strong></em></p><p id="6d67a017-9d4b-4881-857b-d6b930a989e7" class="">초기 자바의 의도를 보려면 봐도 좋음</p><figure id="14c549f7-d902-417e-a770-aa7e75d624e9"><div class="bookmark source"><a href="https://www.win.tue.nl/~evink/education/avp/pdf/feel-of-java.pdf"></a><br/><a class="bookmark-href" href="https://www.win.tue.nl/~evink/education/avp/pdf/feel-of-java.pdf">https://www.win.tue.nl/~evink/education/avp/pdf/feel-of-java.pdf</a></div></figure><p id="e50cd3a3-bde4-4437-8392-bf467e238d0e" class="">
+</p><h2 id="80d02837-8b6a-4666-9ab0-36f3e79e4382" class="">사내 신입 자바 가이드 </h2><p id="3b6615a8-7e60-472e-9f01-b96ef604cb15" class="">사내에 갓님이 적은 신입을 위한 자바가이드.</p><p id="8e5e3ea5-e4e1-4473-802b-175ebd2a03b8" class="">재밌는것 일부만 적는다.</p><p id="ead1f1fb-6791-47d2-99ea-3caedcd3e3fa" class="">
+</p><h3 id="2f2981da-cee0-4122-b6f3-ce2b2be5c5ca" class="">Guard clause</h3><pre id="cc84fb49-e924-499f-9fe7-129d9feb6cc7" class="code"><code>public Alarm evaluate(Issue issue) {
+    Alarm alarm = null;
+    if (issue.getStatus() == Status.OPEN) {
+        if (now.isAfter(issue.getDueDate())) {
+            alarm = Alarm.DANGER;
+        } else {
+            alarm = Alarm.NOTICE;
+        }
+    } else {
+         alarm = Alarm.INFO;
+
+    }
+    return alarm;
+}
+
+ public Alarm evaluate(Issue issue) {
+
+    if (issue.getStatus() == Status.CLOSED) {
+        return  Alarm.INFO;
+    }
+
+    if (now.isAfter(issue.getDueDate())) {
+        return  Alarm.DANGER;
+    }
+    return Alarm.INFO;
+}</code></pre><p id="6119a095-6891-4d1e-b5f9-c705fe6ababe" class="">
+</p><p id="26dd9fc5-c85f-4ec2-8ae9-e8e8fbb8400f" class=""> if / else 문을 줄여서 복잡도를 낮춘다</p><p id="086b63a0-bdc1-480c-84eb-5d3be271a52e" class="">코드 플로우의 상단에서 이미 검사를 하면 이후는 그 검사한 내용이 도달하지 못하므로 전제를 깔고 갈 수 있으므로 (ㅇㅇ thread-safe해야함)  이 기법을 Guard clause라고 하는듯 하다. </p><p id="967ebfc4-cd44-4f87-9159-af6c3e209697" class="">
+</p><h3 id="8cfbc718-2d64-47ab-b4d4-28c039cded88" class="">Inter.valueOf</h3><figure id="b41d8de3-1e88-4ce6-93fd-b2da5b52fd08" class="image"><a href="WIP%20JAVA/Untitled.png"><img style="width:514px" src="WIP%20JAVA/Untitled.png"/></a></figure><p id="08ff2039-0c3b-4360-bde6-94c09acf66a4" class="">위의 사진처럼 IntegerCache.cache에 IntegerCache.low 와 IntegerCache.high의 값이 캐싱되어있다.</p><p id="c1034861-44a5-4945-8f40-dceedd9af795" class="">constructor는 캐시를 타지않으므로 valueOf을 쓰자</p><p id="44379ec8-5ee7-42d1-ab14-f34d5bc2db70" class="">
+</p><p id="f31b24a4-8cca-4647-9e0b-8ca1f99d0513" class="">
+</p><h3 id="baa44383-98c5-4ca4-a96a-18b216db1d46" class="">인터페이스를 이용하여 참조하자</h3><p id="fa9766ff-516f-4d0f-9c6e-831d91a59574" class="">
+</p><p id="f3f74814-9576-40c6-be17-ac5842089be2" class="">여러 이유가 있지만 포괄적인 결론을 내리자면 변경에 강점을 가짐 </p><p id="85e65a04-2477-447c-bee8-90765b12a289" class="">
+</p><p id="4d3f8b84-1192-42b4-9342-92d57313c1f0" class=""><strong>예외</strong></p><ol id="16a67543-1627-4c75-bd33-136c1155b6e5" class="numbered-list" start="1"><li>String, BigInteger와 같은 &#x27;value class’의 참조</li></ol><ol id="7e037bb0-8098-4a90-8db5-f0778839b563" class="numbered-list" start="2"><li>적절히 참조할 수 있는 인터페이스가 없을 때</li></ol><ol id="30bbc955-9098-4d24-809d-d9e8e8968ebf" class="numbered-list" start="3"><li>인터페이스 수준에서 적절한 메서드가 제공되지 않을 때</li></ol><p id="64451e5b-4859-4cb5-8932-2b61135b2978" class="">
+</p><h3 id="4472c41b-3891-4f2b-8b0c-782db61c72cc" class="">로깅시 불필요한 문자열 생성 처리 </h3><p id="8648e4fd-be11-4248-b53f-145c6612f0dd" class="">Log Level이 충족하지 않을때, 아래와 같은 문자열 연산을 실행한다면 불필요한 연산을 하게된다.</p><pre id="13c46036-34d0-4e95-b599-c78d14d2f3b0" class="code"><code>log.info(&quot;unknown Products : &quot; + products)</code></pre><p id="dc46231c-b210-4d75-8c1c-4a5706002657" class="">아래 와 같이 if문으로 가능여부를 확인한다.</p><pre id="dc8fdc93-4862-4bf0-8dce-fd300067d7e1" class="code"><code>if (log.isInfoEnabled()) {
+    log.info(&quot;unknown Products : &quot; + products)
+}</code></pre><p id="b4e68a75-036c-4bd6-947e-e895ed8cb5a4" class="">그리고 SLF4J에서는 아래와 같이 필요한 시점에 스트림 결합연산을 할 수 있다고 한다. (분기없이)</p><pre id="78ffdb35-a253-495a-ae13-c720b432a626" class="code"><code>logger.info(&quot;unknown Products : {}&quot;,  products)</code></pre><p id="14af7e46-a0da-4585-893c-a54d57104320" class="">
+</p><h3 id="d5285798-2117-4122-80eb-575f21d7bb98" class="">DAO vs Repository (참조)</h3><p id="f0f5ace6-8818-4342-b5c6-c30954ec4128" class="">DAO의 인터페이스는 데이터베이스의 CRUD 쿼리와 1:1 매칭되는 세밀한 단위의 오퍼레이션을 제공한다. 반면 REPOSITORY는 메모리에 로드된 객체 컬렉션에 대한 집합 처리를 위한 인터페이스를 제공한다. DAO가 제공하는 오퍼레이션이 REPOSITORY 가 제공하는 오퍼레이션보다 더 세밀하며, 결과적으로 REPOSITORY에서 제공하는 하나의 오퍼레이션이 DAO의 여러 오퍼레이션에 매핑되는 것이 일반적이다. 따라서 하나의 REPOSITORY 내부에서 다수의 DAO를 호출하는 방식으로 REPOSITORY를 구현할 수 있다.(<a href="http://aeternum.egloos.com/1160846">http://aeternum.egloos.com/1160846</a> )</p><p id="c70838cb-fefd-48e0-bb48-85c19f63b678" class="">
+</p><h3 id="166fc0a0-0505-46ff-b44b-24da6f0ce6d5" class="">JAVA Christmas - 20. Garbage collection</h3><p id="b30a0e06-2c42-426a-8634-894bd2c83026" class="">GC는 자바의 주요 특징이다.</p><p id="7fe603e5-c275-4f53-9e97-d3afee829bc0" class="">개발자에게 메모리 관리에보다 앱의 기능적인 측면에 초점을 맞추도록 도와준다.</p><p id="712f1ffc-5fbc-42cb-a6e5-b4749bc17976" class="">
+</p><p id="95fcd611-8c89-40ae-acd7-4daf172c313c" class="">GC는 사용하지 않는 메모리를 반납하도록 하는 메카니즘이다. 이러한 메카니즘을 유지할 수 있도록 힙에서 안전하게 제거 될 수 있는지 결정을 한다.</p><p id="dae85879-df8c-45ee-9423-ca863ce3f84b" class="">
+</p><p id="bffc067b-5dbc-45ae-ab4a-9fddbfbcfc37" class="">자바 프로세스는 사용 할 수 있는 메모리에 따라 heap, metaspace(PermGen successor), JIT codecache, thread stacks, and shared 라이브러리에 메모리를 할당한다. 이 글은 metaspace와 codecache에도 GC 가 있지, Heap에 초점을 맞춘다.</p><p id="d46e20f0-3483-4792-ac82-5acec6bd6745" class="">
+</p><p id="936fb78f-70b4-44f3-b970-4a580caf4988" class="">Java heap은 아래와 같이 세영역으로 나뉜다.</p><p id="f9de0120-41e6-4861-aecd-08bec8366e53" class="">
+</p><figure id="e2a70404-7606-41ec-9f0f-a2cb5fe51f08" class="image"><a href="WIP%20JAVA/Untitled%201.png"><img style="width:1010px" src="WIP%20JAVA/Untitled%201.png"/></a></figure><p id="f0861645-8004-4f62-ae35-c4d7d858c611" class="">Eden space는 <code>new</code>  Object가 위치한다. GC에서 살아남은 Eden space의 객체들은Suvivor space로 이동한다. 만약 survivor space에서 오래 살아남아 threshold(직역-문지방, 의역-기준선)을 넘으면 tenured space로 이동한다. </p><p id="27336dd2-bc5f-47f4-99f9-c65e0d7f90a2" class="">
+</p><p id="c22dba9c-da20-4595-988e-4030b94fe44f" class="">객체들이 각 space들을  이동하는 과정은 generational 또는 ephemeral GC라고 알려져있다. 그리고 이 과정은 대부분의 객체의 라이프사이클이 빠르게 끝난다는 가정을 기반으로 만들어졌다. 이러한 이ㅠ가 minorGC와 majorGC라고 부르는 이유이다. minorGC는 Eden psace와 Survivor sapce를 합친 young space에서 동작하고, majorGC는 tenured space에서 동작한다. </p><p id="bfb774b7-ffb5-465f-99f8-b35ede08b8d8" class="">
+</p><h3 id="a7e8229c-6264-4f61-b96e-6cb32abb4518" class="">Phase in a GC cycle</h3><p id="59321272-e0c1-4d58-a91f-f123974d9692" class="">자바의 메모리 모델에 대해서 짧게 설명 한후 GC cycle에서 무슨일이 일어나는지 알아보자.</p><p id="233f5788-cb5b-48fe-825d-5347b8e3c75c" class="">
+</p><p id="9a832993-450c-44b0-923e-dcc0c9e6a07b" class=""><strong>Marking</strong></p><p id="b8ac8a16-0830-4959-b8d5-b16e52369301" class=""> Marking phase는 어느 GC알고리즘에서든 처음에 일어난다. 이 과정에서 알고리즘은 힙에서 제거 가능한 객체들을 찾는다 .</p><p id="890dffba-e9c7-4c45-a394-6fbbc39093b6" class="">
+</p><figure id="2b37d756-561b-4862-ba5a-5e4b983fb328" class="image"><a href="WIP%20JAVA/Untitled%202.png"><img style="width:1030px" src="WIP%20JAVA/Untitled%202.png"/></a></figure><p id="aebcba89-355d-409c-bce4-35a8ff620d69" class="">
+</p><p id="a4d9d191-299f-4fd8-82b1-5ed90be2b237" class="">마킹이 될 객체들을 선택하는 방법은 여러가지가 있다. 가장 간단한 방법은 잘 알려진 reference counter를 확인한다. 각 객체가 얼마나 많은 참조를 가지고 있는지 추적한다. 참조가 제거되면 reference counter 도 감소한다. 그리고 0이 되면 이 객체는 죽은 객체라고 마킹 된다. 이 방법은 순환참조에서 몇가지 제약이 있으며 어느 GC에서든 사용되지 않는다. GC알고리즘은 객체에 접근 할 수 있는지 확인하기 위해서 graph traversal 알고리즘을 사용한다.</p><p id="c5b0ebcc-f752-4c1b-b825-a28761c6eebb" class="">
+</p><figure id="720a4898-b11d-4ba8-ad0f-7c20bd1bda40" class="image"><a href="WIP%20JAVA/Untitled%203.png"><img style="width:1044px" src="WIP%20JAVA/Untitled%203.png"/></a></figure><p id="c917aea2-9098-41f8-bafc-f7aacac19b3d" class="">
+</p><p id="19fadec2-ec19-46a6-a53d-115216ee0fae" class="">GC 루트에서 참조되는 객체들을 추적하기 시작하고, 이후 모든참조를 찾을 수 있다. 여기서 찾을 수 있으면 모드 접근 가능한 객체라고 볼 수있다. 접근 불가능한 객체는 죽은 객체이며 gabage collected 될 수 있다고 마킹된</p><p id="6937670a-1592-46e8-aa73-63a8864a455d" class="">다. </p><p id="c66a04f9-254a-4896-9080-e45019ca5938" class="">
+</p><figure id="0ef0e43c-63f0-41a1-b496-73da538cf34e"><div class="bookmark source"><a href="https://java.christmas/2019/20">Garbage collection</a><br/><a class="bookmark-href" href="https://java.christmas/2019/20">https://java.christmas/2019/20</a></div></figure><p id="13a1b3d6-6d7f-41aa-9d2f-40be3c8e204e" class="">
+</p><p id="f38c747d-23cc-4e09-9d5b-dd0920404381" class="">
+</p></div></article></body></html>

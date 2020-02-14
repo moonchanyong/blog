@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>DesignPattern</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Lombok with Jackson</title><style>
 /* webkit printing magic: print all background colors */
 html {
 	-webkit-print-color-adjust: exact;
@@ -562,4 +562,29 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="05f2e8f7-8f35-4713-9580-f3c5bcc66862" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">📓</span></div><h1 class="page-title">DesignPattern</h1></header><div class="page-body"><table class="collection-content"><thead><tr><th>Name</th><th>Created</th><th>Tags</th></tr></thead><tbody><tr id="5697e402-a2c9-4a05-9a4d-3787502c439e"><td class="cell-title"><a href="DesignPattern/Apache%20Kafka%20EDA.html">Apache Kafka를 이용한 EDA 설계에서 고민한 기록</a></td><td class="cell-@I#e"><time>@Oct 31, 2019 2:33 PM</time></td><td class="cell-0GX!"></td></tr></tbody></table></div></article></body></html>
+</style></head><body><article id="d149aa8c-31a4-402d-96ba-106c8138bcab" class="page sans"><header><h1 class="page-title">Lombok with Jackson</h1><table class="properties"><tbody><tr class="property-row property-row-date"><th>Created</th><td></td></tr><tr class="property-row property-row-select"><th>Status</th><td></td></tr><tr class="property-row property-row-multi_select"><th>Tags</th><td><span class="selected-value">공부</span></td></tr></tbody></table></header><div class="page-body"><p id="ee2194da-f117-418c-b20f-a28b558dece6" class="">
+</p><h2 id="b19b476d-5f9a-49c8-9a7c-6a8a31f189fe" class="">Lombok과 Jackson 같이쓰기</h2><p id="6190cbf5-a916-4936-b924-2bab3a7db02a" class="">
+</p><p id="a06a8820-d632-4651-954c-83ccc6c0a8f9" class="">스택오버플로우에서 안된다하는 글 봐서 안 되는줄알았는데 된다.</p><p id="be6d7185-bf2c-40bf-b33d-81953f27aa79" class="">
+</p><pre id="e319a848-c879-4120-b06f-f8c3aa01f1c6" class="code"><code>// lombok.config in project root
+lombok.anyConstructor.addConstructorProperties=true</code></pre><p id="007b1415-62a2-4c2e-92bc-e8ba5cbf751f" class="">
+</p><p id="5e390081-8a89-460a-9188-6c281838f3ad" class="">프로젝트루트에 위의 설정 추가</p><p id="be669c18-e801-4bb3-858c-3d836527c710" class="">
+</p><p id="8b37fc6b-32b0-4d06-a40e-020071a50681" class=""><code>lombok.anyConstructor.addConstructorProperties=true</code> 설정은 constructor에 <code>java.beans.constructorproperties</code> 어노테이션을 추가해준다.</p><p id="77bc2c81-1879-48ed-a7f6-342615bd2f39" class="">
+</p><p id="1c960228-1e5e-409d-924b-11de0d1fa0fe" class=""><code>java.beans.constructorproperties</code>는 jackson 2.7부터 deserialize를 할때 사용가능하다. (<code>@JsonCreator</code>를 붙일 필요가없다.)</p><p id="5601a3ec-953b-416e-a242-50ef67d8cba3" class="">
+</p><p id="9d3574c7-f84f-4dca-b9eb-b130763abd50" class="">그래서 더 깔끔한 코드 작성가능.</p><p id="e65d375f-9f6a-4503-ad82-9f2a76579a98" class="">
+</p><pre id="d3bce847-100a-4b4d-ae47-5487b0deaa46" class="code"><code>val json = &quot;&quot;&quot;
+{
+  &quot;id&quot;: ${UUID.randomUUID()},
+	&quot;name&quot;: &quot;Chanyong&quot;,
+  &quot;OtherVO&quot;: {
+		...
+	}
+}
+&quot;&quot;&quot;
+
+ObjectMapper().readValue(json, Domain::class.java)</code></pre><pre id="c71607e3-94be-4739-8841-4c141985ae61" class="code"><code>@Data
+final class Domain {
+	final UUID id;
+	String name = &quot;&quot;;
+	OtherVO vo; 
+} </code></pre><p id="d039815c-4331-4f58-b44f-1081ddd82679" class="">
+</p></div></article></body></html>

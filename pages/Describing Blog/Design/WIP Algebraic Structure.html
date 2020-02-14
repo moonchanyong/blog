@@ -1,0 +1,616 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>[WIP] Algebraic Structure</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	opacity: 0.5;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif; }
+.mono { font-family: Nitti, 'Microsoft YaHei', '微软雅黑', monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, Nitti, 'Microsoft YaHei', '微软雅黑', monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3009e870-70db-4920-9c66-d5ff9f6957c0" class="page sans"><header><h1 class="page-title">[WIP] Algebraic Structure</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th>Created</th><td><time>@Dec 29, 2019 5:48 PM</time></td></tr><tr class="property-row property-row-multi_select"><th>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><p id="e7e1abce-4169-42c3-9e2d-e70dbe02f54d" class=""><em><strong>for fantasy land study, Wikipedia-Driven-Study</strong></em></p><p id="10ae0d9e-ec90-4f0b-93cb-ec19cc7506ca" class="">
+</p><p id="1d43047c-ce8a-492d-982d-05e69f4c061a" class="">
+</p><h2 id="6c3fffcb-6fbe-4046-b860-faacd9960fb2" class="">Terminology</h2><p id="ea252bb4-0eb7-46fd-8b60-c7335e535477" class="">
+</p><h3 id="745d788f-0ff9-4003-bc17-6560dea5b82c" class="">Statement </h3><p id="d2262748-ccc8-4d2c-8493-1e1da8a85e8e" class="">a definite or clear expression of something in speech or writing.</p><p id="8ecb83a1-6423-45c4-9026-026c717a0131" class="">명제</p><p id="24e1311a-2fcb-4c74-9170-8b2f4fdf99e0" class=""> </p><h3 id="305059f7-4c66-4ab5-9d74-25c7e11ff4be" class=""><a href="https://en.wikipedia.org/wiki/Arity">Arity</a></h3><p id="556f9d95-210f-4f48-aa57-bb83716f6343" class="">function 또는 operation이 취하는 arguments 또는 operands의 수를 나타낸다.</p><p id="aa4f62da-48d4-4510-a853-9bf17066fb43" class="">
+</p><h3 id="477836fd-ae3b-4b4c-8efd-bda0cadd2a03" class=""><a href="https://en.wikipedia.org/wiki/Axiom">Axiom</a></h3><p id="08dbc408-c1c5-44a2-86c7-e077c4bb2424" class="">참이라고 여겨지는 명제, 하나의 이론에서 증명없이 바르다고 하는 명제, 전제된 명제. </p><p id="91ed587b-3efd-411d-8872-adbe1f278f4b" class="">
+</p><h3 id="44ae5e31-4f86-40f5-899d-415d41af3cb3" class=""><a href="https://en.wikipedia.org/wiki/Algebraic_structure">Algebraic structure</a></h3><p id="6309e57d-faef-4706-a1bd-b8c1ee45f313" class="">집합 A의 algebraic structure는 유한한 arity, 유한한 identities, operation들 모두 참이 되는 전제를 가진 operations의 모임이다.</p><p id="0aac20f0-4394-4920-b866-9795a32fb093" class="">(일련의 연산들이 주어진 집합)</p><p id="be2b45e0-20be-4496-b5c2-c5cd7da0b31e" class="">
+</p><p id="e847354f-6293-469e-885d-1e45f414e59d" class="">
+</p><h2 id="e300565a-b7c5-4891-b0ef-e27d10d10fda" class="">Fanatasy Land</h2><p id="55ef54c6-6035-4c99-b8a3-43407f494e5a" class=""> </p><p id="48ec42fe-ff36-47fa-a5fc-69ae90870f5e" class="">This project specifies interoperability of common algebraic structures</p><p id="98bac26f-4e77-4d64-bb6a-777e85b0d646" class="">
+</p><h3 id="570fb06e-7cfc-49ea-bcb2-501105cc74bd" class="">Functor</h3><p id="fee82b3f-f4b8-44e0-ab5a-9a2f39390a23" class="">a functor is a map between categories.</p><p id="61fd8050-7f1a-47d7-8493-facde4ca5571" class="">collection의 object들이 다른 타입으로 맵핑 될 수 있음.</p><p id="59755278-b80b-469a-b0c2-4d911503f22c" class="">
+</p><p id="10394cd9-f582-495a-8de0-a1a7ba855e35" class=""><strong>Definition</strong></p><figure id="d92398b2-2e3a-45fc-bb90-b96d3ed2e806" class="image"><a href="WIP%20Algebraic%20Structure/Untitled.png"><img style="width:1583px" src="WIP%20Algebraic%20Structure/Untitled.png"/></a></figure><ol id="d60a4f30-a753-4179-ad30-8b30fc0c2c2d" class="numbered-list" start="1"><li>identity function이 제공되면 기존과 같음</li></ol><ol id="64712131-b352-4081-8a18-f52824201237" class="numbered-list" start="2"><li>F(f(g(x)))가  map을 g, f순으로 한 것과 같음 <p id="b14d51c9-2768-4d27-a3ab-13e02d3581cc" class="">
+</p></li></ol><p id="456d8280-8bb9-4485-a72c-e8a606b3f673" class=""><code><strong>fantasy-land/map</strong></code><strong> method</strong></p><p id="e718dd71-f5be-4dec-83f9-ccc37dc6bb93" class="">
+</p><pre id="a2966cd4-34a6-4831-bac2-bb8807d2b973" class="code"><code>fantasy-land/map :: Functor f =&gt; f a ~&gt; (a -&gt; b) -&gt; f b</code></pre><p id="d671eca3-8b16-482b-914f-a7a38f62e181" class="">
+</p><p id="fa2b7439-7792-4998-a18a-bfbbe5be0f9b" class="">Functor는 반드시 <code>fantasy-land/map</code> 메서드를 제공한다. 하나의 argument만 받는다.</p><p id="654fc283-c768-438b-b69f-f3e828cddc2a" class="">
+</p><pre id="9fd691cd-fc46-4029-b98c-46ec3a9e648e" class="code"><code>u[&#x27;fantasy-land/map&#x27;](f)</code></pre><ol id="25bb4cf9-c30d-45d0-9a71-d766aa5a9d2b" class="numbered-list" start="1"><li>f는 함수이다.<ol id="491e067c-01e5-4b4e-9f92-27ce34391c50" class="numbered-list" start="1"><li><code>f</code>가 함수가 아닌경우에 <code>fantasy-land/map</code> 의 동작은 명시되어있지 않다.</li></ol><ol id="4baf3e45-ad0f-4d22-a938-c0c87493f5a2" class="numbered-list" start="2"><li><code>f</code>는 어느 값이라도 반환한다.</li></ol><ol id="bdd04463-a943-4e6f-8800-f74e8ffcb6ed" class="numbered-list" start="3"><li>No parts of f&#x27;s return value should be checked.</li></ol></li></ol><ol id="c78ed731-9a37-4a1a-8724-8112508cce9d" class="numbered-list" start="2"><li><code>fantasy-land/map</code> 은 반드시 같은  functor를 반환 해야한다.</li></ol><p id="aead7cfb-5ef7-48a6-b248-4bb3c296de6e" class="">
+</p><p id="25d3b0ee-230b-40a7-bfb9-57290df3493e" class=""><strong>Snippet</strong></p><pre id="9e149e3f-13c8-4df6-a7fb-3967396cf9f4" class="code"><code>class Functor&lt;A&gt; {
+  iterator = function*(){...};
+   
+  map(f: A =&gt; B): Functor&lt;B&gt; {
+    new Functor()
+		for(const iter : iterator) {
+      f(iter)
+    }
+  }
+}</code></pre><p id="450a1722-e896-4e53-8439-778b728df5c7" class="">
+</p><h3 id="01bbed07-939c-4401-a0c7-35ce4312e677" class="">Foldable</h3><p id="d12b330a-a85f-4874-a12b-20cf07ee6406" class="">
+</p><p id="9ee43761-15f3-4de0-bda7-7f12104d5876" class=""><strong>Definition</strong></p><figure id="f2564b03-330c-4f2e-b94d-c07623d6a414" class="image"><a href="WIP%20Algebraic%20Structure/Untitled%201.png"><img style="width:1544px" src="WIP%20Algebraic%20Structure/Untitled%201.png"/></a></figure><ol id="c37d0497-ae90-4914-9172-ce2375417ba1" class="numbered-list" start="1"><li><code>((acc, x) ⇒ acc.concat([x]), [])</code>은 list, 기존이 다른 iterable이라도 reduce 동작은 같음</li></ol><p id="9a730257-dae1-4478-982b-4398323c4128" class="">
+</p><p id="793f598f-57a1-4e4f-9596-8b4fbc4d989f" class=""><code>foldable</code> 은 <code>fantasy-land/reduce</code> 메서드를 가진다. <code>fantasy-land/reduce</code> 는 2개의 arguments를 가진다.</p><pre id="16e32d90-68ca-41c3-90ff-5ae72cab83d9" class="code"><code>u[&#x27;fantasy-land/reduce&#x27;](f, x)</code></pre><p id="65e68c06-8287-4bea-8498-b1c82097ce49" class="">
+</p><ol id="77ea03e7-f729-4fbc-a00f-b3d4358eb2c5" class="numbered-list" start="1"><li><code>f</code> 반드시 bifunction이어야 한다.<ol id="00526ca8-f57a-4928-8291-c4fbbbd82f5b" class="numbered-list" start="1"><li>만약 <code>f</code> 가 함수가 아니면 <code>fantasy-land/reduce</code> 는 명세되어있지 않다.</li></ol><ol id="3b664654-6511-4222-aaea-8ce6c759d74b" class="numbered-list" start="2"><li><code>f</code> 의 첫 argumnet는  <code>x</code>와  타입이 같아야한다.</li></ol><ol id="163205d9-762e-487b-ae1d-f5621d79c45b" class="numbered-list" start="3"><li><code>f</code>는 반드시 <code>x</code>와 같은 타입을 반환해야한다.</li></ol><ol id="2718c9b0-658c-4e85-9c66-57b1c38cc923" class="numbered-list" start="4"><li>No parts of f&#x27;s return value should be checked.</li></ol></li></ol><ol id="0716b227-18e8-4d32-af20-2d715c60d2d8" class="numbered-list" start="2"><li>x는 초기 누산을 위한 값이다. <ol id="e07849db-62d6-4d81-b045-f1aba4b10d05" class="numbered-list" start="1"><li>No parts of x should be checked.</li></ol><p id="06e31032-ab4e-438e-b839-5ae9fd795d4f" class="">
+</p></li></ol><h3 id="39611923-1736-4fb9-9fd1-e9923995c815" class="">Contravariant</h3><p id="1e1a6907-70b2-464c-b676-577c2886a4df" class="">
+</p><p id="7c8621c4-0b4c-4273-bfa4-a0e3776d811f" class=""><strong>Definition</strong></p><figure id="53e7bfaa-2742-4d08-a561-ce3b167f61db" class="image"><a href="WIP%20Algebraic%20Structure/Untitled%202.png"><img style="width:1221px" src="WIP%20Algebraic%20Structure/Untitled%202.png"/></a></figure><pre id="b95f89cd-15f1-4b52-ab76-95c415441604" class="code"><code>fantasy-land/contramap :: Contravariant f =&gt; f a ~&gt; (b -&gt; a) -&gt; f b</code></pre><p id="15a8adde-d427-48dd-8821-bf243fa18899" class="">
+</p><p id="e0c23ddb-f319-4fb7-bc26-5de1bb363d0e" class="">Contravariant f a의 contramap이 받는 인자인 함수의 타입이 b → a인데 f b를 return해서 헷갈리는데, 아래 예시를 보면 바로 평가하는게 아니라 더 composition 후에 사용된다.</p><p id="2ddb984a-f9c2-446a-81eb-c86b886c976c" class="">개인적으로 예시를 보고 어떻게 써야겠다라고 생각 되는점은 함수 합성시 순서가 먼저 들어온 것이 먼저 적용 되는 부분인데 다른 함수로 이를 보완할 수 있어서 (함수로 variant  말고) 굳이?? 라는 생각이 든다.(다른 이유가 있을텐데 아직 못찾겠다. )</p><p id="1e0c43da-9d1e-4ac9-b687-ba36fbf7030d" class="">
+</p><p id="6b28ab75-6eab-47c4-a11f-5253a6755bcf" class=""><strong>React example</strong></p><figure id="79d8b3c2-225f-45c6-94da-fd86b72093d0"><div class="bookmark source"><a href="https://gist.github.com/abiodun0/f0a745e8e96b59fc722c12ab18c61236">Contramap and functors in js. react as an example</a><br/><a class="bookmark-href" href="https://gist.github.com/abiodun0/f0a745e8e96b59fc722c12ab18c61236">https://gist.github.com/abiodun0/f0a745e8e96b59fc722c12ab18c61236</a></div></figure><p id="c32ed2ca-444f-471a-a960-a4f8ff7f9a31" class="">
+</p><h3 id="161865ef-4813-40e3-9055-d1caf512044e" class="">Filterable</h3><p id="dc3776e2-82bb-4409-8690-7365045e3537" class="">
+</p><p id="2d8517a7-692a-41b8-a699-e6645b9a5095" class=""><strong>Definition</strong></p><figure id="a8c24616-221e-44c4-87b5-8ea6513d5bae" class="image"><a href="WIP%20Algebraic%20Structure/Untitled%203.png"><img style="width:1067px" src="WIP%20Algebraic%20Structure/Untitled%203.png"/></a></figure><ol id="4ce97d1b-eed7-487a-8b73-74a0e72ad3a8" class="numbered-list" start="1"><li>분배법칙</li></ol><ol id="65462900-7648-40d2-82c4-430ccc1ca591" class="numbered-list" start="2"><li>항등원</li></ol><ol id="ab38e6ec-054f-440a-a6dc-6ce4a5b7c63a" class="numbered-list" start="3"><li>annihilation operator ⇒ 소멸작용소라고 함</li></ol><p id="2daecbe1-215a-4442-9b97-5c96da9ff7ab" class="">
+</p><pre id="0b5654f9-1895-42c3-bcd1-6cc3ccc04041" class="code"><code>fantasy-land/filter :: Filterable f =&gt; f a ~&gt; (a -&gt; Boolean) -&gt; f a</code></pre><p id="6b04ab08-533a-49aa-99e2-e5273cdb91bd" class="">
+</p><p id="39ac081c-53a8-4f0c-a721-cb8c35e87706" class=""><code>Filterable</code> 은 반드시 <code>fantasy-land/filter</code> 메서드를 가진다. </p><p id="f0444e2a-a565-4582-b0ba-257646190a8a" class=""> <code>fantasy-land/filter</code> 는 한개의 전달인자를 받는다.</p><p id="4370ef8b-275d-4e93-b4c2-39a475092b15" class="">
+</p><pre id="ea57fe77-183d-48d2-b415-2d004d2ee9d0" class="code"><code>v[&#x27;fantasy-land/filter&#x27;](p)</code></pre><p id="f380e120-6879-461e-a05b-eba26d3183ef" class="">
+</p><ol id="32348b93-52d3-4eed-8ef1-d631403359c7" class="numbered-list" start="1"><li>`p`는 반드시 함수이다. <ol id="4436784a-f8d8-4878-a908-50e93f82f582" class="numbered-list" start="1"><li> 만약 <code>p</code> 가 함수가 아니라면 <code>fantasy-land/filter</code> 의 동작은 명세되어있지 않다.</li></ol><ol id="886c153b-5376-4c07-b891-c9a31570a467" class="numbered-list" start="2"><li><code>p</code> 반드시 <code>true</code> 또는 <code>false</code>를 반환한다. 만약 다른 값을 반환하면 <code>fantasy-land/filter</code> 의 동작은 명세되어있지 않다.</li></ol><p id="6dfa7aa7-e451-4863-b3ed-8b923765eeb7" class="">
+</p></li></ol><ol id="243f4251-702f-4495-bbe2-edbf8271c7d9" class="numbered-list" start="2"><li> <code>fantasy-land/filter</code> 는 반드시 같은 Filterable을 반환한다.</li></ol><p id="e3a34b8d-707e-4b66-9f0f-10ba731da280" class="">
+</p><p id="7bd30075-7268-4052-9016-4f6d0fb20737" class="">
+</p><h3 id="1774b9c2-63d5-4cf0-962f-5c2e794c0eda" class=""><a href="https://en.wikipedia.org/wiki/Setoid">Setoid </a></h3><p id="1c6f1ec7-cc7b-483d-9eda-fbc9eb14f0f4" class="">setoid는 동등관계를 집합(또는 타입)이다. (정확히 무엇을 위해서 사용하는지 모르겠다.)</p><figure id="3b3ea4ac-45a7-4bca-b2c2-36e64e839059"><div class="bookmark source"><a href="https://stackoverflow.com/questions/40445387/how-to-understand-setoid-definition-of-category">How to understand Setoid definition of category?</a><br/><a class="bookmark-href" href="https://stackoverflow.com/questions/40445387/how-to-understand-setoid-definition-of-category">https://stackoverflow.com/questions/40445387/how-to-understand-setoid-definition-of-category</a></div></figure><p id="b4dbf5ed-e852-49dd-8281-2f53d59c1314" class="">
+</p><p id="e2c2deb7-289a-4149-b075-72fb127f78af" class=""><strong>Definition</strong></p><figure id="1ad41ad7-d5dc-4c9e-ab62-c8d1b5306dae" class="image"><a href="WIP%20Algebraic%20Structure/Untitled%204.png"><img style="width:1326px" src="WIP%20Algebraic%20Structure/Untitled%204.png"/></a></figure><ol id="52b7835a-1f81-4793-9c97-e35d4d7ed671" class="numbered-list" start="1"><li>반사성, <a href="https://ko.wikipedia.org/wiki/%EB%B0%98%EC%82%AC%EA%B4%80%EA%B3%84">반사관계</a>가 유사할듯</li></ol><ol id="a25befea-6141-43b1-9e47-7c3f592c2838" class="numbered-list" start="2"><li>대칭</li></ol><p id="a7b8c1b4-ad4e-4cc6-b5ec-1154dbed18e3" class="">
+</p><pre id="a15fc792-e477-49f4-a9bd-75e1963181a3" class="code"><code>fantasy-land/equals :: Setoid a =&gt; a ~&gt; a -&gt; Boolean</code></pre><p id="4441dc7d-2367-487d-a463-88a45137d5bb" class=""><code>Setoid</code>는 반드시  <code>fantasy-land/equals</code> 메서드를 가져야한다. 전달인자를 하나만 받는다.</p><p id="f895dedb-51fe-4fc9-8ad5-c5123a79950b" class="">
+</p><pre id="41c9a1aa-4af2-46df-95ff-3d98099c9c1e" class="code"><code>a[&#x27;fantasy-land/equals&#x27;](b)</code></pre><ol id="5a989df3-c782-4e31-9998-aa6adcb7c623" class="numbered-list" start="1"><li><code>b</code> 는 반드시 같은 Setoid여야 한다.(Setoid는 carrier타입이므로  실제 담은 값의 타입이 같아야한다는 뜻일듯하다.)<ol id="9eed182e-6be1-4500-b42e-0a837e86d5ca" class="numbered-list" start="1"><li>if <code>b</code> 가 같은 Setoid가 아니라면 <code>fantasy-land/equals</code> 의 동작은 명세되어 있지않다.(<code>false</code>를 반환하는걸 추천한다.)</li></ol></li></ol><ol id="c3f1b439-d334-4aa2-92c5-e6ece4ac7f8c" class="numbered-list" start="2"><li><code>fantasy-land/equals</code> 반드시 true또는 false를 반환한다.</li></ol><p id="be22daa5-39e3-4b32-b673-6a87b0b47fc0" class="">
+</p><h3 id="2d357944-565a-478f-b46d-7e5a4edd527c" class="">Ord</h3><p id="e0290203-9ce2-4337-91d8-a54d0bf2d103" class="">Ord 클래스는 모두 정렬된 데이터 타입을 위해 사용된다.(하스켈 패키지 참조)</p><p id="0969b43e-67c9-4324-bd36-b342fc301994" class="">반드시 Setoid 스펙이 구횬되어있어야 한다.</p><p id="147e0174-33c1-48ca-b07d-c86d34e059a1" class="">
+</p><p id="41840a42-b743-4271-a628-8ec2e0d776df" class="">
+</p><figure id="243acf45-898d-4263-a74c-acb8db5c5aa8" class="image"><a href="WIP%20Algebraic%20Structure/Untitled%205.png"><img style="width:1393px" src="WIP%20Algebraic%20Structure/Untitled%205.png"/></a></figure><p id="4cd0e92a-296a-4dce-adee-5f7f20ec83d3" class="">
+</p><pre id="1c857e5b-acfb-48d9-8aa3-171663b9472b" class="code"><code>fantasy-land/lte :: Ord a =&gt; a ~&gt; a -&gt; Boolean</code></pre><p id="1453609d-e613-4835-b437-76f60732711a" class="">
+</p><p id="8208e3ab-642a-4d27-85ae-6ca5e2095b4c" class=""><code>Ord</code> 는 반드시 <code>fantasy-land/lte</code> 메서드를 제공해야한다. <code>fantasy-land/lte</code> 는 하나의 전달인자를 가진다. </p><p id="e35d40c5-e479-4ebb-a8d8-7f6ed0a832b5" class="">
+</p><pre id="fe12dc22-1ec8-4847-a055-83cc6552eff4" class="code"><code>a[&#x27;fantasy-land/lte&#x27;](b)</code></pre><p id="5d15bfd8-326a-469c-a217-d5f048126c8b" class="">
+</p><ol id="8ff4788f-27be-4769-8d90-036297e7f7db" class="numbered-list" start="1"><li><code>b</code> 는 반드시 같은 Ord 값이어야한다. (Carrier 타입이므로 담고있는 값의 타입이 같아야한다는 뜻일듯 하다)<ol id="f5957867-dfb9-4766-9807-34ef31d47484" class="numbered-list" start="1"><li> <code>b</code> 는 같은 Ord가 아니라면 <code>fantasy-land/lte</code> 의 동작은 명세되어있지않다. (<code>false</code> 반환을 추천)</li></ol></li></ol><ol id="771c9a9c-2c74-4449-bda6-8c6a702bdde3" class="numbered-list" start="2"><li> <code>fantasy-land/lte</code> 는 반드시  <code>true</code> 또는 <code>false</code>를 반환한다.</li></ol><p id="14bdd584-54c7-456b-a222-da68b81b4327" class="">
+</p></div></article></body></html>

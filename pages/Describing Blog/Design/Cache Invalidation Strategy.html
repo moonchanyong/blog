@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>mapping</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Cache  Invalidation Strategy</title><style>
 /* webkit printing magic: print all background colors */
 html {
 	-webkit-print-color-adjust: exact;
@@ -562,4 +562,11 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="f028e1eb-0e55-45fc-9ac8-ab8b9a2af460" class="page sans"><header><h1 class="page-title">mapping</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th>Created</th><td><time>@Nov 25, 2019 2:52 AM</time></td></tr><tr class="property-row property-row-multi_select"><th>Tags</th><td></td></tr></tbody></table></header><div class="page-body"></div></article></body></html>
+</style></head><body><article id="11693802-5a7e-4378-8803-2f4e9453d941" class="page sans"><header><h1 class="page-title">Cache  Invalidation Strategy</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th>Created</th><td><time>@Jan 28, 2020 3:13 PM</time></td></tr><tr class="property-row property-row-multi_select"><th>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><p id="3a23a4c3-3c71-4c18-803d-59aecee521af" class="">
+</p><p id="66d5a70e-6709-44c3-96e7-b491ec100ff2" class="">캐시에 대한 질문이 생각나서 찾아보았다. </p><p id="aa2e0d8b-e741-47cc-9be5-47a023756b28" class="">
+</p><p id="b735cbde-7ef4-4fd1-9295-ba7fb321aadc" class="">캐시의 유효한 데이터만 보존하기 위한 invalidation 방법</p><p id="0d2ffac2-430e-4985-9830-6e7739a5ac93" class="">
+</p><h2 id="b3c0d77c-edfc-4895-a945-9c0029f335dc" class="">전략</h2><p id="c59d6eac-39e4-4345-acb2-b7075db49a84" class="">
+</p><h3 id="fa0200db-9735-4ea7-bc30-cf550016f392" class="">TTL</h3><p id="20f9d58e-afeb-416d-af57-d9c0b9fdf1d8" class="">일정 시간마다 업데이트<div class="indented"><ul id="aa66771f-1fb5-4940-8a38-305c224ae181" class="bulleted-list"><li>장점<ul id="6fc7125a-d277-4e07-9c64-35fd547baba5" class="bulleted-list"><li>간단하다.</li></ul></li></ul><ul id="27d72e3b-12e1-48ef-8493-88692cf74d04" class="bulleted-list"><li>단점<ul id="5fcb8786-58e2-4ad7-ab09-332c1d591d32" class="bulleted-list"><li>데이터가 flush되기 전 까지 유효하지 않은 데이터를 제공하게 된다. </li></ul></li></ul></div></p><p id="2c3213f3-0bf8-44ba-ab29-25e9c1b6117d" class="">
+</p><h2 id="9d5d3e6f-7ce5-43ad-9f32-417468dbdc5b" class="">DB에서 Update일어 날 때 flush</h2><p id="9aecb531-def4-4c5f-9324-adb9908f1ecb" class="">Update가 일어날때 캐시에도 값 설정</p><p id="61623fef-f124-4fa5-a30c-c4f70ece4ae4" class="">
+</p><h2 id="77f5a4c3-b068-4cea-90e3-945a3736e4b3" class="">Read시 업데이트</h2><p id="44254897-febe-4216-9cf1-66921adfefec" class="">Read시 DB에 캐싱된 데이터에 변동이 없는지만 확인</p><p id="94e476ed-4370-485c-a3c0-4df79a0c3f74" class="">
+</p><h2 id="23cf753f-8f54-40f5-8110-9eb114441d77" class="">SCAN on Redis</h2><p id="b06bb31a-5759-4471-9531-455b6711c4e1" class="">background 프로세스에서 SCAN으로 순차적으로 validation</p></div></article></body></html>
